@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace GodotRx
+namespace GodotRx.Internal
 {
   internal class InstanceTracker : Godot.Object
   {

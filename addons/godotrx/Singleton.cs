@@ -3,7 +3,7 @@ using System;
 
 using Object = Godot.Object;
 
-namespace GodotRx
+namespace GodotRx.Internal
 {
   internal class Singleton : Node
   {

@@ -6,7 +6,7 @@ using System.Reactive.Subjects;
 
 using Object = Godot.Object;
 
-namespace GodotRx
+namespace GodotRx.Internal
 {
   internal abstract class BaseEventTracker<T> : Object
   {

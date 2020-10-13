@@ -40,10 +40,10 @@ __meta__ = {
 }
 
 [node name="ObjectCounter" type="Label" parent="."]
-margin_left = 37.4284
-margin_top = 50.062
-margin_right = 109.429
-margin_bottom = 70.062
+margin_left = 37.0
+margin_top = 50.0
+margin_right = 136.0
+margin_bottom = 64.0
 text = "Object count: 0"
 script = ExtResource( 1 )
 __meta__ = {

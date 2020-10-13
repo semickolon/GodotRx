@@ -1,12 +1,11 @@
 using Godot;
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace GodotRx
+namespace GodotRx.Internal
 {
-  public class NodeTracker : Node
+  internal class NodeTracker : Node
   {
     private Subject<float>? _onProcess;
     private Subject<float>? _onPhysicsProcess;

@@ -17,5 +17,8 @@ public class ObjectCounter : Label
       .CombineLatest(this.OnPhysicsProcess(), (a, b) => (a, b))
       .Sample(new TimeSpan(0, 0, 1))
       .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"));
+
+    this.OnActionJustPressed("ui_left")
+      .Subscribe(_ => GD.Print("trigger"));
   }
 }
