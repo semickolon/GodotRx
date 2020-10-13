@@ -31,7 +31,7 @@ func get_class_signal_data(cls) -> Dictionary:
 		var args = []
 
 		for arg in signal_info.args:
-			args.append(arg.type)
+			args.append({ "name": arg.name, "type": arg.type, "cls": arg["class_name"] })
 		
 		out[signal_info.name] = args
 	

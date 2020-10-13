@@ -49,10 +49,38 @@ function kebabToPascal(str) {
     .join('')
 }
 
+function stringifyType({ type: id, cls }) {
+  if (id === 17 && cls.length > 0) {
+    return `Godot.${cls}`
+  }
+  return TYPE_MAP[id]
+}
+
 function funcDecl(className, signalName, args) {
-  var generics = args.map(e => TYPE_MAP[e]).join(', ')
-  var returnType = `IObservable<${(args.length > 1 ? `(${generics})` : generics) || 'Unit'}>`
-  var callGenerics = generics && `<${generics}>`
+  var generics = ""
+  var callGenerics = ""
+
+  if (args.length === 1) {
+    generics = stringifyType(args[0])
+    callGenerics = `<${generics}>`
+  } else if (args.length > 1) {
+    generics = args
+      .map(arg => ({
+        type: stringifyType(arg),
+        name: kebabToPascal(arg.name)
+      }))
+      .map(arg => `${arg.type} ${arg.name}`)
+      .join(', ')
+
+    callGenerics = args
+      .map(arg => stringifyType(arg))
+      .join(', ')
+    
+    generics = `(${generics})`
+    callGenerics = `<${callGenerics}>`
+  }
+
+  var returnType = `IObservable<${generics || 'Unit'}>`
   
   return `
 public static ${returnType} On${kebabToPascal(signalName)}(this ${className} ${OBJ_VAR_NAME})
@@ -75,4 +103,5 @@ for (let className in signalData) {
   }
 }
 
-// console.log(maxArgs)
+// console.log('\n')
+// console.log(`Max args: ${maxArgs}`)
