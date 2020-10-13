@@ -44,8 +44,15 @@ margin_left = 37.4284
 margin_top = 50.062
 margin_right = 109.429
 margin_bottom = 70.062
-text = "ObjCount"
+text = "Object count: 0"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label" type="Label" parent="."]
+margin_left = 50.0031
+margin_top = 202.394
+margin_right = 90.0031
+margin_bottom = 216.394
+text = "Tracked button should free more objects because trackers are also freed"

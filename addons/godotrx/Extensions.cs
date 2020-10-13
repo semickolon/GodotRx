@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 using Object = Godot.Object;
 
@@ -71,6 +72,61 @@ namespace GodotRx
         d => tracker.Freed += d,
         d => tracker.Freed -= d
       );
+    }
+
+    public static IObservable<float> OnProcess(this Node node)
+    {
+      return node.GetNodeTracker().OnProcess;
+    }
+
+    public static IObservable<float> OnPhysicsProcess(this Node node)
+    {
+      return node.GetNodeTracker().OnPhysicsProcess;
+    }
+
+    public static IObservable<InputEvent> OnInput(this Node node)
+    {
+      return node.GetNodeTracker().OnInput;
+    }
+
+    public static IObservable<InputEvent> OnUnhandledInput(this Node node)
+    {
+      return node.GetNodeTracker().OnUnhandledInput;
+    }
+
+    public static IObservable<InputEventKey> OnUnhandledKeyInput(this Node node)
+    {
+      return node.GetNodeTracker().OnUnhandledKeyInput;
+    }
+
+    private static NodeTracker GetNodeTracker(this Node node)
+    {
+      NodeTracker tracker;
+
+      if (node.GetChildCount() > 0 
+          && node.GetChildOrNull<NodeTracker>(0) is var child 
+          && child != null)
+      {
+        tracker = child;
+      }
+      else
+      {
+        tracker = new NodeTracker();
+        tracker.Name = "__NodeTracker__";
+        node.AddChild(tracker);
+        node.MoveChild(tracker, 0);
+      }
+
+      return tracker;
+    }
+  }
+
+  public static class ReactiveExtensions
+  {
+    public static void CompleteAndDispose<T>(this Subject<T> subject)
+    {
+      subject.OnCompleted();
+      subject.Dispose();
     }
   }
 }

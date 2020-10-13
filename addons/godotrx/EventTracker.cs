@@ -42,8 +42,7 @@ namespace GodotRx
     protected override void Dispose(bool disposing)
     {
       // GD.Print("EventTracker disposed");
-      _subject.OnCompleted();
-      _subject.Dispose();
+      _subject.CompleteAndDispose();
       base.Dispose(disposing);
     }
   }
