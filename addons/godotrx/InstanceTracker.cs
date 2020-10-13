@@ -5,6 +5,8 @@ namespace GodotRx.Internal
 {
   internal class InstanceTracker : Godot.Object
   {
+    public static readonly string OnFreedMethod = nameof(OnTrackerFreed);
+
     public event Action? Freed;
     
     private int _id;
@@ -13,8 +15,7 @@ namespace GodotRx.Internal
 
     public InstanceTracker(Godot.Object target)
     {
-      _id = Singleton.InjectInstanceTracker(target);
-      Singleton.ConnectInstanceTrackerFreed(this, nameof(OnTrackerFreed));
+      _id = Singleton.RegisterInstanceTracker(this, target);
     }
 
     public void OnTrackerFreed(int id)

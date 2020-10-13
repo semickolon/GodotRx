@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 
 using Object = Godot.Object;
 
 namespace GodotRx
 {
   public static class NodeExtensions
-  { 
+  {
     public static IObservable<Unit> ObserveSignal(this Object obj, string signalName)
       => _ObserveSignal(obj, signalName, new EventTracker());
     
@@ -76,46 +75,29 @@ namespace GodotRx
     }
 
     public static IObservable<float> OnProcess(this Node node)
-    {
-      return node.GetNodeTracker().OnProcess;
-    }
+      => node.GetNodeTracker().OnProcess;
 
     public static IObservable<float> OnPhysicsProcess(this Node node)
-    {
-      return node.GetNodeTracker().OnPhysicsProcess;
-    }
+      => node.GetNodeTracker().OnPhysicsProcess;
 
     public static IObservable<InputEvent> OnInput(this Node node)
-    {
-      return node.GetNodeTracker().OnInput;
-    }
-
+      => node.GetNodeTracker().OnInput;
+    
     public static IObservable<InputEvent> OnUnhandledInput(this Node node)
-    {
-      return node.GetNodeTracker().OnUnhandledInput;
-    }
+      => node.GetNodeTracker().OnUnhandledInput;
 
     public static IObservable<InputEventKey> OnUnhandledKeyInput(this Node node)
-    {
-      return node.GetNodeTracker().OnUnhandledKeyInput;
-    }
+      => node.GetNodeTracker().OnUnhandledKeyInput;
 
     private static NodeTracker GetNodeTracker(this Node node)
     {
-      NodeTracker tracker;
+      var tracker = node.GetNodeOrNull<NodeTracker>(NodeTracker.DefaultName);
 
-      if (node.GetChildCount() > 0 
-          && node.GetChildOrNull<NodeTracker>(0) is var child 
-          && child != null)
-      {
-        tracker = child;
-      }
-      else
+      if (tracker == null)
       {
         tracker = new NodeTracker();
-        tracker.Name = "__NodeTracker__";
+        tracker.Name = NodeTracker.DefaultName;
         node.AddChild(tracker);
-        node.MoveChild(tracker, 0);
       }
 
       return tracker;
@@ -184,24 +166,6 @@ namespace GodotRx
       return node.OnProcess()
         .Where(_ => Input.IsActionJustReleased(action))
         .Select(_ => new Unit());
-    }
-  }
-
-  public static class ReactiveExtensions
-  {
-    public static void CompleteAndDispose<T>(this Subject<T> subject)
-    {
-      subject.OnCompleted();
-      subject.Dispose();
-    }
-
-    public static IObservable<U> OfType<T, U>(this IObservable<T> observable)
-      where T : class
-      where U : T
-    {
-      return observable
-        .Where(e => e is U)
-        .Select(e => (U) e);
     }
   }
 }

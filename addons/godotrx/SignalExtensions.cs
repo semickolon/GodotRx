@@ -8,7 +8,7 @@ using Dictionary = Godot.Collections.Dictionary;
 
 namespace GodotRx
 {
-  public static class NodeSignalExtensions
+  public static class SignalExtensions
   {
     public static IObservable<Unit> OnScriptChanged(this Object obj)
       => obj.ObserveSignal("script_changed");

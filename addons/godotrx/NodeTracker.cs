@@ -7,6 +7,8 @@ namespace GodotRx.Internal
 {
   internal class NodeTracker : Node
   {
+    public static readonly string DefaultName = "__NodeTracker__";
+
     private Subject<float>? _onProcess;
     private Subject<float>? _onPhysicsProcess;
     private Subject<InputEvent>? _onInput;

@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
 [ext_resource path="res://tests/ButtonUntracked.cs" type="Script" id=3]
+[ext_resource path="res://tests/ToggleButton.cs" type="Script" id=4]
+[ext_resource path="res://tests/ColorPicker.cs" type="Script" id=5]
 
 [node name="Control" type="Control"]
 margin_right = 40.0
@@ -56,3 +58,25 @@ margin_top = 202.394
 margin_right = 90.0031
 margin_bottom = 216.394
 text = "Tracked button should free more objects because trackers are also freed"
+
+[node name="ToggleButton" type="Button" parent="."]
+margin_left = 541.658
+margin_top = 42.5099
+margin_right = 574.658
+margin_bottom = 62.5099
+toggle_mode = true
+text = "YES"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPicker" type="ColorPicker" parent="."]
+margin_left = 667.81
+margin_top = 84.4998
+margin_right = 975.81
+margin_bottom = 546.5
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
