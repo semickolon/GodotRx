@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
+[ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
+[ext_resource path="res://tests/ButtonUntracked.cs" type="Script" id=3]
+
+[node name="Control" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonTracked" type="Button" parent="."]
+anchor_top = -0.0166855
+anchor_bottom = -0.0166855
+margin_left = 84.0949
+margin_top = 100.113
+margin_right = 135.095
+margin_bottom = 120.113
+toggle_mode = true
+text = "Free Me (Tracked)"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonUntracked" type="Button" parent="."]
+anchor_top = -0.0166855
+anchor_bottom = -0.0166855
+margin_left = 83.3878
+margin_top = 145.368
+margin_right = 208.388
+margin_bottom = 165.368
+toggle_mode = true
+text = "Free Me (Untracked)"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObjectCounter" type="Label" parent="."]
+margin_left = 37.4284
+margin_top = 50.062
+margin_right = 109.429
+margin_bottom = 70.062
+text = "ObjCount"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
