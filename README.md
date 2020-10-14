@@ -21,16 +21,18 @@ Upon looking for existing workarounds, [AlleyCat](https://github.com/mysticfall/
 GodotRx aims to solve all of this by turning signals into observables, so you could write something like:
 ``` csharp
 button.OnPressed()
-  .Subscribe(_ => DoStuff());
+  .Subscribe(_ => DoStuff())
+  .DisposeWith(this);
 
 colorPicker.OnColorChanged()
-  .Subscribe(color => label.Modulate = color); // color is Godot.Color
+  .Subscribe(color => label.Modulate = color) // color is Godot.Color
+  .DisposeWith(this);
 ```
 
 [Official support for signals as events coming soon](https://godotengine.org/article/csharp-ios-signals-events)
 
 ## Installation
-As far as I know, Godot 3.x lacks support for plugins written in C#. Until we get proper support, you'll have to copy and paste `addons/godotrx` into your own project, then make sure to enable the plugin. **C# 8.0+ is required.**
+As far as I know, Godot 3.x lacks support for plugins written in C#. Until we get proper support, you'll have to copy and paste `addons/godotrx` into your own project, then make sure to enable the plugin. **C# 8.0+ is required. Written and tested on Godot 3.2.3 stable.**
 
 If the generated code for signals as observables doesn't match up with your version of Godot, you might want to manually generate it as such:
 1. Add a `SignalDataGen` node in any scene.
@@ -48,20 +50,25 @@ public override void _Ready()
   // For signals with no arguments, you'd get a Unit
   // t is Unit
   button.OnPressed()
-    .Subscribe(t => DoStuff());
+    .Subscribe(t => DoStuff())
+    .DisposeWith(this);
   
   // For signals with 1 argument, you'd get that argument
   // color is Godot.Color
   colorPicker.OnColorChanged()
-    .Subscribe(color => label.Modulate = color);
+    .Subscribe(color => label.Modulate = color)
+    .DisposeWith(this);
 
   // For signals with 2 or more arguments, you'd get a named ValueTuple
   // t is (int AreaId, Godot.Area Area, int AreaShape, int SelfShape)
   area.OnAreaShapeEntered()
-    .Subscribe(t => GD.Print(t.Area, t.SelfShape));
+    .Subscribe(t => GD.Print(t.Area, t.SelfShape))
+    .DisposeWith(this);
 }
 ```
-You don't have to worry about disposing observers because it's automatically done for you once the signal source is freed.
+Subscriptions are automatically disposed when the event source is freed. However, it's possible that the source is alive but the receiver isn't. When the source emits, the subscriber may access something already freed like `this`, causing errors.
+
+To prevent this, use `DisposeWith(Godot.Object)` to automatically dispose the subscriber when the Godot object argument (presumably the receiver) is freed. Now, once the source or receiver is freed, whichever goes first, the subscriber is disposed. There are cases when the source and receiver are the same, but I think it's good practice nonetheless.
 
 ### Node lifecycle
 Inspired by [UniRx](https://github.com/neuecc/UniRx), lifecycle methods such as `_Process` and `_Input` can be made into observables.
@@ -72,11 +79,13 @@ public override void _Ready()
 {
   this.OnProcess()
     .Where(delta => Input.IsActionJustPressed("jump"))
-    .Subscribe(delta => player.Jump(delta));
+    .Subscribe(delta => player.Jump(delta))
+    .DisposeWith(this);
   
   this.OnUnhandledInput()
     .Where(ev => ev is InputEventKey)
-    .Subscribe(DoStuff);
+    .Subscribe(DoStuff)
+    .DisposeWith(this);
 }
 ```
 Similar to AlleyCat's limitations, the events you'd receive from these lifecycle observables don't come from the node itself, but from a child node automatically added acting as some kind of proxy. This is because there seems to be no way to directly intercept calls to these lifecycle methods.
@@ -97,22 +106,40 @@ public override void _Ready()
     .Subscribe(x => GD.Print(x));
   
   this.OnKeyJustPressed(KeyList.Space)
-    .Subscribe(_ => player.Jump());
+    .Subscribe(_ => player.Jump())
+    .DisposeWith(this);
 }
 ```
+
+## Progress
+✅ Signal observables
+
+✅ Lifecycle observables
+
+✅ Input observables
+
+🚧 More utility observables
+
+🚧 Reactive properties
+
+🚧 Reactive data structures
+
+🚧 Computed properties
+
+🚧 Two-way binding / Reactive nodes
 
 ## How it Works
 ### Signals
 Code generation, basically. It turns out you can extract information from offline docs, including signals, from `ClassDB`. After generating, it all goes to `SignalExtensions.cs`.
 
-For automatic housekeeping, when signal sources are freed, observers are disposed. I was able to intercept an object being freed by injecting a tracker (extends `Resource`) with `set_meta`. There'd only be one reference to the tracker, which is the object holding it as meta. Now, once the object is freed, there'll be no more references pointing to the tracker, emitting a predelete notification (interception point), then finally freeing it.
+For automatic housekeeping, when signal sources (and receivers if `DisposeWith` is used) are freed, observers are disposed. I was able to intercept an object being freed by injecting a tracker with `set_meta`. There'd only be one reference to the tracker, which is the object holding it as meta. Now, once the object is freed, there'll be no more references pointing to the tracker, emitting a predelete notification (interception point), then finally freeing it.
 
 For some reason, this hack only works in GDScript. The tracker isn't automatically freed when done in C#, so I did it all in GDScript with some C# wrapper code.
 
 Finally, I could've used and added a child node which also gets freed once its parent is freed, but that only works for nodes. This hacky approach works for all Godot objects.
 
 ### Node lifecycle
-It seems like there's absolutely no way to intercept lifecycle method calls, so when you use lifecycle observables, a child node is added (if there's not one yet) which is the one doing the intercepting, albeit indirectly.
+It seems like there's absolutely no way to intercept lifecycle method calls, so when you use lifecycle observables, a child node is added (if there's not one yet) which is the one doing the intercepting, albeit indirectly. As such, if you must absolutely rely on node count and order for making things work, you might have to rethink your approach.
 
 ### Common input events
 Simply making use of lifecycle observables.
