@@ -3,6 +3,7 @@ using GodotRx.Internal;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 using Object = Godot.Object;
@@ -52,11 +53,11 @@ namespace GodotRx
         var subscription = onSignal.Subscribe(observer.OnNext);
         subscriptionList.Add(subscription);
 
-        return () =>
+        return Disposable.Create(() => 
         {
           subscription.Dispose();
           subscriptionList.Remove(subscription);
-        };
+        });
       });
     }
 

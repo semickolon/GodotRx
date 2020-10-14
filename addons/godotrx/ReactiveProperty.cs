@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Godot;
 
 using Object = System.Object;
 using Expression = System.Linq.Expressions.Expression;
@@ -50,9 +49,10 @@ namespace GodotRx
       
       IsDisposed = true;
 
-      _observers.ForEach(observer => observer.OnCompleted());
-      _observers.Clear();
+      foreach (var observer in _observers.ToArray())
+        observer.OnCompleted();
 
+      _observers.Clear();
       _sourceSubscription.Dispose();
     }
 
@@ -142,9 +142,12 @@ namespace GodotRx
         return;
       
       IsDisposed = true;
-
-      _observers.ForEach(observer => observer.OnCompleted());
+      // TODO: _observers.ForEach(...) triggers "collection was modified" error
+      foreach (var observer in _observers.ToArray())
+        observer.OnCompleted();
+      
       _observers.Clear();
+      _sourceSubscription?.Dispose();
     }
 
     public IDisposable Subscribe(IObserver<T> observer)
@@ -217,10 +220,7 @@ namespace GodotRx
         raiseLatestValueOnSubscribe
       );
 
-      prop.Subscribe(x => {
-        setter(target, convertBack(x));
-        GD.Print("wow ", target);
-      });
+      prop.Subscribe(x => setter(target, convertBack(x)));
 
       return prop;
     }
