@@ -19,7 +19,7 @@ namespace GodotRx
       {
         objectDisposables[instId] = new HashSet<IDisposable>();
 
-        new InstanceTracker(obj).Freed += () =>
+        InstanceTracker.Of(obj).Freed += () =>
         {
           foreach (var disposable in objectDisposables[instId])
           {

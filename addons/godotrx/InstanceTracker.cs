@@ -1,21 +1,41 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+
+using Object = Godot.Object;
 
 namespace GodotRx.Internal
 {
-  internal class InstanceTracker : Godot.Object
+  internal class InstanceTracker : Object
   {
     public static readonly string OnFreedMethod = nameof(OnTrackerFreed);
+    
+    private static readonly Dictionary<ulong, InstanceTracker> store = new Dictionary<ulong, InstanceTracker>();
 
     public event Action? Freed;
     
     private int _id;
 
-    public InstanceTracker() {}
+    private InstanceTracker() {}
 
-    public InstanceTracker(Godot.Object target)
+    private InstanceTracker(Object target)
     {
       _id = Singleton.RegisterInstanceTracker(this, target);
+    }
+
+    public static InstanceTracker Of(Object target)
+    {
+      var instId = target.GetInstanceId();
+      InstanceTracker tracker;
+
+      if (!store.TryGetValue(instId, out tracker))
+      {
+        tracker = new InstanceTracker(target);
+        store[instId] = tracker;
+        tracker.Freed += () => store.Remove(instId);
+      }
+
+      return tracker;
     }
 
     public void OnTrackerFreed(int id)

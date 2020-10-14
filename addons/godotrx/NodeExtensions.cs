@@ -40,12 +40,12 @@ namespace GodotRx
       var onSignal = tracker.OnSignal;
       var instId = obj.GetInstanceId();
       
-      obj.OnFreed().Subscribe(_ =>
+      InstanceTracker.Of(obj).Freed += () =>
       {
         // GD.Print($"freed {instId}:{signalName}");
         subscriptionList.ForEach(s => s.Dispose());
         tracker.DeferredFree();
-      });
+      };
 
       return Observable.Create<T>(observer => 
       {
@@ -63,15 +63,6 @@ namespace GodotRx
     public static void DeferredFree(this Object obj)
     {
       obj.CallDeferred("free");
-    }
-
-    private static IObservable<Unit> OnFreed(this Object obj)
-    {
-      var tracker = new InstanceTracker(obj);
-      return Observable.FromEvent(
-        d => tracker.Freed += d,
-        d => tracker.Freed -= d
-      );
     }
 
     public static IObservable<float> OnProcess(this Node node)
