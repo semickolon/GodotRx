@@ -1,9 +1,9 @@
 extends Reference
 
 var id = get_instance_id()
-var GodotRx: Node
+var GodotRx: Object
 
-func _init(rx: Node):
+func _init(rx: Object):
 	GodotRx = rx
 
 func _notification(what):

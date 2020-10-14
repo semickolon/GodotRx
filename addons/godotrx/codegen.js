@@ -41,7 +41,7 @@ const TYPE_MAP = {
   26: "Color[]"
 }
 
-function kebabToPascal(str) {
+function snakeToPascal(str) {
   return str
     .replace(/^_/g, '')
     .split('_')
@@ -67,7 +67,7 @@ function funcDecl(className, signalName, args) {
     generics = args
       .map(arg => ({
         type: stringifyType(arg),
-        name: kebabToPascal(arg.name)
+        name: snakeToPascal(arg.name)
       }))
       .map(arg => `${arg.type} ${arg.name}`)
       .join(', ')
@@ -83,7 +83,7 @@ function funcDecl(className, signalName, args) {
   var returnType = `IObservable<${generics || 'Unit'}>`
   
   return `
-public static ${returnType} On${kebabToPascal(signalName)}(this Godot.${className} ${OBJ_VAR_NAME})
+public static ${returnType} On${snakeToPascal(signalName)}(this Godot.${className} ${OBJ_VAR_NAME})
   => ${OBJ_VAR_NAME}.ObserveSignal${callGenerics}("${signalName}");
 `.trim();
 }

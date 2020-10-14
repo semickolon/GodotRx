@@ -1,4 +1,4 @@
-extends Node
+extends Object
 
 const InstanceTracker = preload("InstanceTracker.gd")
 const TRK_META = "__inst_trk__"

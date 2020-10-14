@@ -1,14 +1,13 @@
 using Godot;
-using System;
 
 using Object = Godot.Object;
 
 namespace GodotRx.Internal
 {
-  internal class Singleton : Node
+  internal class Singleton
   {
     private static GDScript _instanceScript = (GDScript) GD.Load("res://addons/godotrx/GodotRx.gd");
-    private static Node _instance = (Node) _instanceScript.New();
+    private static Object _instance = (Object) _instanceScript.New();
 
     public static int RegisterInstanceTracker(InstanceTracker tracker, Object target)
     {
