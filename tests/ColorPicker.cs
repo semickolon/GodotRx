@@ -6,6 +6,8 @@ public class ColorPicker : Godot.ColorPicker
 {
   public override void _Ready()
   {
-    this.OnColorChanged().Subscribe(color => GD.Print(color));
+    this.OnColorChanged()
+      .Subscribe(color => GD.Print(color))
+      .DisposeWith(this);
   }
 }

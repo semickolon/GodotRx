@@ -15,10 +15,12 @@ public class ObjectCounter : Label
 
     this.OnProcess()
       .CombineLatest(this.OnPhysicsProcess(), (a, b) => (a, b))
-      .Sample(new TimeSpan(0, 0, 1))
-      .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"));
+      .Sample(TimeSpan.FromSeconds(1))
+      .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"))
+      .DisposeWith(this);
 
     this.OnActionJustPressed("ui_left")
-      .Subscribe(_ => GD.Print("trigger"));
+      .Subscribe(_ => GD.Print("trigger"))
+      .DisposeWith(this);
   }
 }

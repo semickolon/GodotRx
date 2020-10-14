@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
 [ext_resource path="res://tests/ButtonUntracked.cs" type="Script" id=3]
 [ext_resource path="res://tests/ToggleButton.cs" type="Script" id=4]
 [ext_resource path="res://tests/ColorPicker.cs" type="Script" id=5]
+[ext_resource path="res://tests/ButtonTarget.cs" type="Script" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://tests/Area2D.cs" type="Script" id=8]
 
@@ -80,10 +81,10 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
-margin_left = 667.81
-margin_top = 84.4998
-margin_right = 975.81
-margin_bottom = 546.5
+margin_left = 675.81
+margin_top = 92.4998
+margin_right = 983.81
+margin_bottom = 554.5
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -110,3 +111,24 @@ texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource( 2 )
+
+[node name="ButtonSource" type="Button" parent="."]
+margin_left = 323.634
+margin_top = 101.136
+margin_right = 378.634
+margin_bottom = 121.136
+text = "Source"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonTarget" type="Button" parent="."]
+margin_left = 347.607
+margin_top = 142.339
+margin_right = 402.607
+margin_bottom = 162.339
+text = "Target"
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
