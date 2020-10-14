@@ -94,10 +94,49 @@ namespace GodotRx
     }
   }
 
+  public static class ReadOnlyReactiveProperty
+  {
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, R>(
+      IReadOnlyReactiveProperty<T1> p1, 
+      IReadOnlyReactiveProperty<T2> p2, 
+      Func<T1, T2, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        Observable.CombineLatest(p1, p2, fn),
+        fn(p1.Value, p2.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, R>(
+      IReadOnlyReactiveProperty<T1> p1, 
+      IReadOnlyReactiveProperty<T2> p2, 
+      IReadOnlyReactiveProperty<T3> p3, 
+      Func<T1, T2, T3, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        Observable.CombineLatest(p1, p2, p3, fn),
+        fn(p1.Value, p2.Value, p3.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, R>(
+      IReadOnlyReactiveProperty<T1> p1, 
+      IReadOnlyReactiveProperty<T2> p2, 
+      IReadOnlyReactiveProperty<T3> p3, 
+      IReadOnlyReactiveProperty<T4> p4, 
+      Func<T1, T2, T3, T4, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        Observable.CombineLatest(p1, p2, p3, p4, fn),
+        fn(p1.Value, p2.Value, p3.Value, p4.Value)
+      );
+    }
+  }
+
   public class ReactiveProperty<T> : IReactiveProperty<T>
   {
     public T Value { 
-      get => _latestValue; 
+      get => _latestValue;
       set
       {
         if (_distinctUntilChanged && Object.Equals(_latestValue, value))

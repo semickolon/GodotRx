@@ -1,14 +1,16 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
 [ext_resource path="res://tests/ButtonUntracked.cs" type="Script" id=3]
 [ext_resource path="res://tests/ToggleButton.cs" type="Script" id=4]
-[ext_resource path="res://tests/ColorPicker.cs" type="Script" id=5]
+[ext_resource path="res://tests/XColorPicker.cs" type="Script" id=5]
 [ext_resource path="res://tests/ButtonTarget.cs" type="Script" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://tests/Area2D.cs" type="Script" id=8]
 [ext_resource path="res://tests/CounterLabel.cs" type="Script" id=9]
+[ext_resource path="res://tests/TextSync.cs" type="Script" id=10]
+[ext_resource path="res://addons/godotrx/Nodes/ReactiveLineEdit.cs" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 52.9719, 49.3549 )
@@ -82,10 +84,10 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
-margin_left = 675.81
-margin_top = 92.4998
-margin_right = 983.81
-margin_bottom = 554.5
+margin_left = 683.81
+margin_top = 100.5
+margin_right = 991.81
+margin_bottom = 562.5
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -141,3 +143,26 @@ margin_right = 407.0
 margin_bottom = 58.0
 text = "0"
 script = ExtResource( 9 )
+
+[node name="TextSync" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="TextSync"]
+margin_left = 332.052
+margin_top = 287.123
+margin_right = 392.052
+margin_bottom = 301.123
+text = "Text here"
+
+[node name="LineEdit" type="LineEdit" parent="TextSync"]
+margin_left = 326.432
+margin_top = 316.189
+margin_right = 515.432
+margin_bottom = 340.189
+text = "Text here"
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
