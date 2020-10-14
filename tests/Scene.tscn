@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://tests/ButtonTarget.cs" type="Script" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://tests/Area2D.cs" type="Script" id=8]
+[ext_resource path="res://tests/CounterLabel.cs" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 52.9719, 49.3549 )
@@ -132,3 +133,11 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CounterLabel" type="Label" parent="."]
+margin_left = 367.0
+margin_top = 44.0
+margin_right = 407.0
+margin_bottom = 58.0
+text = "0"
+script = ExtResource( 9 )
