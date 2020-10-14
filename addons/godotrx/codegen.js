@@ -83,7 +83,7 @@ function funcDecl(className, signalName, args) {
   var returnType = `IObservable<${generics || 'Unit'}>`
   
   return `
-public static ${returnType} On${kebabToPascal(signalName)}(this ${className} ${OBJ_VAR_NAME})
+public static ${returnType} On${kebabToPascal(signalName)}(this Godot.${className} ${OBJ_VAR_NAME})
   => ${OBJ_VAR_NAME}.ObserveSignal${callGenerics}("${signalName}");
 `.trim();
 }
