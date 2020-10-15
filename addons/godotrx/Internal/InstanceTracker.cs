@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 
@@ -6,15 +5,17 @@ using Object = Godot.Object;
 
 namespace GodotRx.Internal
 {
-  internal class InstanceTracker : Object
+  internal sealed class InstanceTracker : Object
   {
     public static readonly string OnFreedMethod = nameof(OnTrackerFreed);
     
     private static readonly Dictionary<ulong, InstanceTracker> store = new Dictionary<ulong, InstanceTracker>();
 
+  #nullable enable
     public event Action? Freed;
+  #nullable disable
     
-    private int _id;
+    private readonly int _id;
 
     private InstanceTracker() {}
 
@@ -26,7 +27,7 @@ namespace GodotRx.Internal
     public static InstanceTracker Of(Object target)
     {
       var instId = target.GetInstanceId();
-      InstanceTracker tracker;
+      InstanceTracker tracker = new InstanceTracker();
 
       if (!store.TryGetValue(instId, out tracker))
       {

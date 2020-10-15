@@ -9,11 +9,13 @@ namespace GodotRx.Internal
   {
     public static readonly string DefaultName = "__NodeTracker__";
 
+  #nullable enable
     private Subject<float>? _onProcess;
     private Subject<float>? _onPhysicsProcess;
     private Subject<InputEvent>? _onInput;
     private Subject<InputEvent>? _onUnhandledInput;
     private Subject<InputEventKey>? _onUnhandledKeyInput;
+  #nullable disable
 
     public IObservable<float> OnProcess
     {

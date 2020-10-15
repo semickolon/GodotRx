@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Reactive.Linq;
-using GodotRx;
 
 namespace GodotRx.Nodes
 {

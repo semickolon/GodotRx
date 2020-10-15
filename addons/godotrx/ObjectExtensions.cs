@@ -1,4 +1,3 @@
-using Godot;
 using GodotRx.Internal;
 using System;
 using System.Collections.Generic;
@@ -13,27 +12,27 @@ namespace GodotRx
   public static class ObjectExtensions
   {
     public static IObservable<Unit> ObserveSignal(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker());
+      => ObserveSignal(obj, signalName, new EventTracker());
     
     public static IObservable<T> ObserveSignal<T>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T>());
+      => ObserveSignal(obj, signalName, new EventTracker<T>());
 
     public static IObservable<(T1, T2)> ObserveSignal<T1, T2>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2>());
 
     public static IObservable<(T1, T2, T3)> ObserveSignal<T1, T2, T3>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3>());
 
     public static IObservable<(T1, T2, T3, T4)> ObserveSignal<T1, T2, T3, T4>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4>());
 
     public static IObservable<(T1, T2, T3, T4, T5)> ObserveSignal<T1, T2, T3, T4, T5>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5>());
 
     public static IObservable<(T1, T2, T3, T4, T5, T6)> ObserveSignal<T1, T2, T3, T4, T5, T6>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5, T6>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5, T6>());
 
-    private static IObservable<T> _ObserveSignal<T>(Object obj, string signalName, BaseEventTracker<T> tracker)
+    private static IObservable<T> ObserveSignal<T>(Object obj, string signalName, BaseEventTracker<T> tracker)
     {
       obj.Connect(signalName, tracker, tracker.TargetMethod);
 
