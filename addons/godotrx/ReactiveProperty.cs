@@ -25,10 +25,10 @@ namespace GodotRx
     public bool IsDisposed { get; private set; } = false;
 
     private T _latestValue;
-    private IDisposable _sourceSubscription;
-    private List<IObserver<T>> _observers = new List<IObserver<T>>();
-    private bool _distinctUntilChanged;
-    private bool _raiseLatestValueOnSubscribe;
+    private readonly IDisposable _sourceSubscription;
+    private readonly List<IObserver<T>> _observers = new List<IObserver<T>>();
+    private readonly bool _distinctUntilChanged;
+    private readonly bool _raiseLatestValueOnSubscribe;
 
     public ReadOnlyReactiveProperty(
       IObservable<T> source,
@@ -102,7 +102,7 @@ namespace GodotRx
       Func<T1, T2, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, fn),
+        p1.CombineLatest(p2, fn),
         fn(p1.Value, p2.Value)
       );
     }
@@ -114,7 +114,7 @@ namespace GodotRx
       Func<T1, T2, T3, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, p3, fn),
+        p1.CombineLatest(p2, p3, fn),
         fn(p1.Value, p2.Value, p3.Value)
       );
     }
@@ -127,7 +127,7 @@ namespace GodotRx
       Func<T1, T2, T3, T4, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, p3, p4, fn),
+        p1.CombineLatest(p2, p3, p4, fn),
         fn(p1.Value, p2.Value, p3.Value, p4.Value)
       );
     }
@@ -150,10 +150,12 @@ namespace GodotRx
     public bool IsDisposed { get; private set; } = false;
 
     private T _latestValue;
-    private IDisposable? _sourceSubscription = null;
-    private List<IObserver<T>> _observers = new List<IObserver<T>>();
-    private bool _distinctUntilChanged;
-    private bool _raiseLatestValueOnSubscribe;
+  #nullable enable
+    private readonly IDisposable? _sourceSubscription = null;
+  #nullable disable
+    private readonly List<IObserver<T>> _observers = new List<IObserver<T>>();
+    private readonly bool _distinctUntilChanged;
+    private readonly bool _raiseLatestValueOnSubscribe;
 
     public ReactiveProperty(
       T initialValue,

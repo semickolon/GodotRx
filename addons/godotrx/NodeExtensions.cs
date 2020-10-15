@@ -29,8 +29,10 @@ namespace GodotRx
 
       if (tracker == null)
       {
-        tracker = new NodeTracker();
-        tracker.Name = NodeTracker.DefaultName;
+        tracker = new NodeTracker
+        {
+            Name = NodeTracker.DefaultName
+        };
         node.AddChild(tracker);
       }
 
