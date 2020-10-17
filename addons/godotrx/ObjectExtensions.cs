@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 
 using Object = Godot.Object;
 
@@ -13,27 +15,27 @@ namespace GodotRx
   public static class ObjectExtensions
   {
     public static IObservable<Unit> ObserveSignal(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker());
+      => ObserveSignal(obj, signalName, new EventTracker());
     
     public static IObservable<T> ObserveSignal<T>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T>());
+      => ObserveSignal(obj, signalName, new EventTracker<T>());
 
     public static IObservable<(T1, T2)> ObserveSignal<T1, T2>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2>());
 
     public static IObservable<(T1, T2, T3)> ObserveSignal<T1, T2, T3>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3>());
 
     public static IObservable<(T1, T2, T3, T4)> ObserveSignal<T1, T2, T3, T4>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4>());
 
     public static IObservable<(T1, T2, T3, T4, T5)> ObserveSignal<T1, T2, T3, T4, T5>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5>());
 
     public static IObservable<(T1, T2, T3, T4, T5, T6)> ObserveSignal<T1, T2, T3, T4, T5, T6>(this Object obj, string signalName)
-      => _ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5, T6>());
+      => ObserveSignal(obj, signalName, new EventTracker<T1, T2, T3, T4, T5, T6>());
 
-    private static IObservable<T> _ObserveSignal<T>(Object obj, string signalName, BaseEventTracker<T> tracker)
+    private static IObservable<T> ObserveSignal<T>(Object obj, string signalName, BaseEventTracker<T> tracker)
     {
       obj.Connect(signalName, tracker, tracker.TargetMethod);
 
@@ -64,6 +66,36 @@ namespace GodotRx
     public static void DeferredFree(this Object obj)
     {
       obj.CallDeferred("free");
+    }
+
+    public static IObservable<Unit> OnFramePreDraw(this Object obj)
+    {
+      return VisualServer.Singleton.ObserveSignal("frame_pre_draw");
+    }
+    
+    public static IObservable<Unit> OnNextFramePreDraw(this Object obj)
+    {
+      return obj.OnFramePreDraw().Take(1);
+    }
+
+    public static Task WaitNextFramePreDraw(this Object obj)
+    {
+      return obj.OnNextFramePreDraw().ToTask();
+    }
+
+    public static IObservable<Unit> OnFramePostDraw(this Object obj)
+    {
+      return VisualServer.Singleton.ObserveSignal("frame_post_draw");
+    }
+    
+    public static IObservable<Unit> OnNextFramePostDraw(this Object obj)
+    {
+      return obj.OnFramePostDraw().Take(1);
+    }
+
+    public static Task WaitNextFramePostDraw(this Object obj)
+    {
+      return obj.OnNextFramePostDraw().ToTask();
     }
   }
 }

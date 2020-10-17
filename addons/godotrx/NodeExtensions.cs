@@ -3,6 +3,8 @@ using GodotRx.Internal;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace GodotRx
 {
@@ -100,6 +102,38 @@ namespace GodotRx
       return node.OnProcess()
         .Where(_ => Input.IsActionJustReleased(action))
         .Select(_ => new Unit());
+    }
+
+    public static IObservable<float> OnIdleFrame(this Node node)
+    {
+      return node.GetTree().OnIdleFrame()
+        .Select(_ => node.GetProcessDeltaTime());
+    }
+
+    public static IObservable<float> OnNextIdleFrame(this Node node)
+    {
+      return node.OnIdleFrame().Take(1);
+    }
+
+    public static Task<float> WaitNextIdleFrame(this Node node)
+    {
+      return node.OnNextIdleFrame().ToTask();
+    }
+
+    public static IObservable<float> OnPhysicsFrame(this Node node)
+    {
+      return node.GetTree().OnPhysicsFrame()
+        .Select(_ => node.GetPhysicsProcessDeltaTime());
+    }
+
+    public static IObservable<float> OnNextPhysicsFrame(this Node node)
+    {
+      return node.OnPhysicsFrame().Take(1);
+    }
+
+    public static Task<float> WaitNextPhysicsFrame(this Node node)
+    {
+      return node.OnNextPhysicsFrame().ToTask();
     }
   }
 }
