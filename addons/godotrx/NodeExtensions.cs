@@ -10,6 +10,7 @@ namespace GodotRx
 {
   public static class NodeExtensions
   {
+    #region Lifecycle
     public static IObservable<float> OnProcess(this Node node)
       => node.GetNodeTracker().OnProcess;
 
@@ -38,7 +39,9 @@ namespace GodotRx
 
       return tracker;
     }
+    #endregion
 
+    #region Input
     public static IObservable<InputEventMouseButton> OnMouseDown(this Node node, ButtonList button = Godot.ButtonList.Left)
       => node.OnMouseButtonEvent(false, button, true);
 
@@ -103,7 +106,9 @@ namespace GodotRx
         .Where(_ => Input.IsActionJustReleased(action))
         .Select(_ => new Unit());
     }
+    #endregion
 
+    #region Frames
     public static IObservable<float> OnIdleFrame(this Node node)
     {
       return node.GetTree().OnIdleFrame()
@@ -135,5 +140,22 @@ namespace GodotRx
     {
       return node.OnNextPhysicsFrame().ToTask();
     }
+    #endregion
+
+    #region Time
+    public static Task WaitFor(this Node node, TimeSpan duration, bool pauseModeProcess = true)
+    {
+      return node.GetTree()
+        .CreateTimer((float) duration.TotalSeconds, pauseModeProcess)
+        .OnTimeout()
+        .Take(1)
+        .ToTask();
+    }
+
+    public static Task WaitForSeconds(this Node node, double seconds, bool pauseModeProcess = true)
+    {
+      return node.WaitFor(TimeSpan.FromSeconds(seconds), pauseModeProcess);
+    }
+    #endregion
   }
 }
