@@ -31,7 +31,5 @@ namespace GodotRx.Internal
       Instance = this;
       PauseMode = PauseModeEnum.Process;
     }
-
-    public static SceneTree SceneTree => Instance.GetTree();
   }
 }

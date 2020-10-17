@@ -9,25 +9,25 @@ namespace GodotRx
 {
   public class TimeBasedScheduler : IScheduler
   {
-    public static readonly TimeBasedScheduler Instance = new TimeBasedScheduler();
+    public static readonly TimeBasedScheduler Process = new TimeBasedScheduler(true);
+    public static readonly TimeBasedScheduler Inherit = new TimeBasedScheduler(false);
 
     public DateTimeOffset Now => DateTimeOffset.FromUnixTimeMilliseconds((long) OS.GetSystemTimeMsecs());
 
-    private TimeBasedScheduler() {}
+    private bool _pauseModeProcess;
 
-    private void DelayAction<TState>(TimeSpan dueTime, TState state, BooleanDisposable disposable, Func<IScheduler, TState, IDisposable> action)
+    private TimeBasedScheduler(bool pauseModeProcess)
     {
-      Singleton.SceneTree
-        .CreateTimer((float) dueTime.TotalSeconds, false)
-        .OnTimeout()
-        .Take(1)
-        .Subscribe(_ =>
-        {
-          if (!disposable.IsDisposed)
-          {
-            action(this, state);
-          }
-        });
+      _pauseModeProcess = pauseModeProcess;
+    }
+
+    private async void DelayAction<TState>(TimeSpan dueTime, TState state, BooleanDisposable disposable, Func<IScheduler, TState, IDisposable> action)
+    {
+      await Singleton.Instance.WaitFor(dueTime, _pauseModeProcess);
+      if (!disposable.IsDisposed)
+      {
+        action(this, state);
+      }
     }
 
     public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
