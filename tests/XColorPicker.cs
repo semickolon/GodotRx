@@ -10,7 +10,8 @@ public class XColorPicker : ReactiveColorPicker
   {
     base._Ready();
     
-    Color.Throttle(TimeSpan.FromSeconds(0.25))
+    Color
+      .Throttle(TimeSpan.FromSeconds(0.2), TimeBasedScheduler.Instance)
       .Skip(1)
       .Subscribe(color => GD.Print(color))
       .DisposeWith(this);

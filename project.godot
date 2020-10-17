@@ -18,6 +18,10 @@ _global_script_class_icons={
 config/name="GodotRx"
 config/icon="res://icon.png"
 
+[autoload]
+
+GodotRx="*res://addons/godotrx/Internal/Singleton.cs"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "godotrx" )

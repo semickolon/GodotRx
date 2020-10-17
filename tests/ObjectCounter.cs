@@ -15,7 +15,7 @@ public class ObjectCounter : Label
 
     this.OnProcess()
       .CombineLatest(this.OnPhysicsProcess(), (a, b) => (a, b))
-      .Sample(TimeSpan.FromSeconds(1))
+      .Sample(TimeSpan.FromSeconds(1), TimeBasedScheduler.Instance)
       .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"))
       .DisposeWith(this);
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://tests/CounterLabel.cs" type="Script" id=9]
 [ext_resource path="res://tests/TextSync.cs" type="Script" id=10]
 [ext_resource path="res://addons/godotrx/Nodes/ReactiveLineEdit.cs" type="Script" id=11]
+[ext_resource path="res://tests/PauseButton.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 52.9719, 49.3549 )
@@ -84,10 +85,10 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
-margin_left = 683.81
-margin_top = 100.5
-margin_right = 991.81
-margin_bottom = 562.5
+margin_left = 691.81
+margin_top = 108.5
+margin_right = 999.81
+margin_bottom = 570.5
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -166,3 +167,13 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PauseButton" type="Button" parent="."]
+pause_mode = 2
+margin_left = 530.606
+margin_top = 76.5216
+margin_right = 583.606
+margin_bottom = 96.5216
+toggle_mode = true
+text = "PAUSE"
+script = ExtResource( 12 )
