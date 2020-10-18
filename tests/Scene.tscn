@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://tests/Area2D.cs" type="Script" id=8]
 [ext_resource path="res://tests/CounterLabel.cs" type="Script" id=9]
 [ext_resource path="res://tests/TextSync.cs" type="Script" id=10]
+[ext_resource path="res://tests/ReactiveLineEdit.cs" type="Script" id=11]
 [ext_resource path="res://tests/PauseButton.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -164,6 +165,7 @@ margin_top = 316.189
 margin_right = 515.432
 margin_bottom = 340.189
 text = "Text here"
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
