@@ -9,8 +9,8 @@ public class CounterLabel : Label
     var v = new Vector2i();
     var vx = ReactiveProperty.FromMember(v, v => v.x);
     var vy = ReactiveProperty.FromMember(v, v => v.y);
-    var vs = ReadOnlyReactiveProperty.Computed(vx, vy, (x, y) => x + y);
-    
+    var vs = ReactiveProperty.Computed(vx, vy, (x, y) => x + y);
+
     vs.Subscribe(x => Text = $"{x} ({v.x}, {v.y})")
       .DisposeWith(this);
 
