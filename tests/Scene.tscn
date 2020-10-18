@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tests/ObjectCounter.cs" type="Script" id=1]
 [ext_resource path="res://tests/ButtonTracked.cs" type="Script" id=2]
@@ -10,10 +10,9 @@
 [ext_resource path="res://tests/Area2D.cs" type="Script" id=8]
 [ext_resource path="res://tests/CounterLabel.cs" type="Script" id=9]
 [ext_resource path="res://tests/TextSync.cs" type="Script" id=10]
-[ext_resource path="res://addons/godotrx/Nodes/ReactiveLineEdit.cs" type="Script" id=11]
 [ext_resource path="res://tests/PauseButton.cs" type="Script" id=12]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 52.9719, 49.3549 )
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -70,6 +69,7 @@ margin_left = 50.0031
 margin_top = 202.394
 margin_right = 90.0031
 margin_bottom = 216.394
+focus_neighbour_left = NodePath("../ObjectCounter")
 text = "Tracked button should free more objects because trackers are also freed"
 
 [node name="ToggleButton" type="Button" parent="."]
@@ -85,10 +85,11 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
-margin_left = 691.81
-margin_top = 108.5
-margin_right = 999.81
-margin_bottom = 570.5
+margin_left = 699.725
+margin_top = 116.5
+margin_right = 1007.73
+margin_bottom = 578.5
+color = Color( 0.45098, 0.278431, 0.278431, 1 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -102,7 +103,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2( 142.212, 341.815 )
@@ -163,7 +164,6 @@ margin_top = 316.189
 margin_right = 515.432
 margin_bottom = 340.189
 text = "Text here"
-script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -1,9 +1,8 @@
 using Godot;
 using System;
 using GodotRx;
-using GodotRx.Nodes;
 
-public class PauseButton : ReactiveButton
+public class PauseButton : Button
 {
   public override void _Ready()
   {

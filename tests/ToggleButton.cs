@@ -1,16 +1,20 @@
 using Godot;
 using System;
 using GodotRx;
-using GodotRx.Nodes;
 
-public class ToggleButton : ReactiveButton
+public class ToggleButton : Button
 {
   public override void _Ready()
   {
-    base._Ready();
-    
-    this.Pressed
-      .Subscribe(x => Text = x ? "YES" : "NO")
+    this.OnToggled()
+      .Subscribe(_ => UpdateText())
       .DisposeWith(this);
+    
+    UpdateText();
+  }
+
+  private void UpdateText()
+  {
+    Text = Pressed ? "YES" : "NO";
   }
 }

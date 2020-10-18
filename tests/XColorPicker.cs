@@ -2,15 +2,12 @@ using Godot;
 using System;
 using System.Reactive.Linq;
 using GodotRx;
-using GodotRx.Nodes;
 
-public class XColorPicker : ReactiveColorPicker
+public class XColorPicker : ColorPicker
 {
   public override void _Ready()
   {
-    base._Ready();
-    
-    Color
+    this.OnColorChanged()
       .Throttle(TimeSpan.FromSeconds(0.2), TimeBasedScheduler.Inherit)
       .Skip(1)
       .Subscribe(color => GD.Print(color))
