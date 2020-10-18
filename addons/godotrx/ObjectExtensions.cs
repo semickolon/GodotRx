@@ -69,33 +69,21 @@ namespace GodotRx
     }
 
     public static IObservable<Unit> OnFramePreDraw(this Object obj)
-    {
-      return VisualServer.Singleton.ObserveSignal("frame_pre_draw");
-    }
+      => VisualServerSignals.OnFramePreDraw();
     
     public static IObservable<Unit> OnNextFramePreDraw(this Object obj)
-    {
-      return obj.OnFramePreDraw().Take(1);
-    }
+      => obj.OnFramePreDraw().Take(1);
 
     public static Task WaitNextFramePreDraw(this Object obj)
-    {
-      return obj.OnNextFramePreDraw().ToTask();
-    }
+      => obj.OnNextFramePreDraw().ToTask();
 
     public static IObservable<Unit> OnFramePostDraw(this Object obj)
-    {
-      return VisualServer.Singleton.ObserveSignal("frame_post_draw");
-    }
+      => VisualServerSignals.OnFramePostDraw();
     
     public static IObservable<Unit> OnNextFramePostDraw(this Object obj)
-    {
-      return obj.OnFramePostDraw().Take(1);
-    }
+      => obj.OnFramePostDraw().Take(1);
 
     public static Task WaitNextFramePostDraw(this Object obj)
-    {
-      return obj.OnNextFramePostDraw().ToTask();
-    }
+      => obj.OnNextFramePostDraw().ToTask();
   }
 }
