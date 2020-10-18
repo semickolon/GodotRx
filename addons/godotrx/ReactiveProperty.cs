@@ -20,7 +20,7 @@ namespace GodotRx
   public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserver<T>
   {
     public T Value => _latestValue;
-    public bool IsDisposed { get; private set; } = false;
+    public bool IsDisposed { get; private set; }
 
     private T _latestValue;
     private readonly IDisposable _sourceSubscription;
@@ -73,7 +73,7 @@ namespace GodotRx
 
     public void OnNext(T value)
     {
-      if (_distinctUntilChanged && Object.Equals(_latestValue, value))
+      if (_distinctUntilChanged && Equals(_latestValue, value))
         return;
 
       _latestValue = value;
@@ -97,7 +97,7 @@ namespace GodotRx
       get => _latestValue;
       set
       {
-        if (_distinctUntilChanged && Object.Equals(_latestValue, value))
+        if (_distinctUntilChanged && Equals(_latestValue, value))
           return;
 
         _latestValue = value;
@@ -105,10 +105,9 @@ namespace GodotRx
       }
     }
 
-    public bool IsDisposed { get; private set; } = false;
-
+    public bool IsDisposed { get; private set; }
     private T _latestValue;
-    private readonly IDisposable? _sourceSubscription = null;
+    private readonly IDisposable? _sourceSubscription;
     private readonly List<IObserver<T>> _observers = new List<IObserver<T>>();
     private readonly bool _distinctUntilChanged;
     private readonly bool _raiseLatestValueOnSubscribe;
@@ -234,6 +233,16 @@ namespace GodotRx
       return prop;
     }
 
+    public static ReadOnlyReactiveProperty<R> Derived<T, R>(
+      IReadOnlyReactiveProperty<T> p,
+      Func<T, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        p.Select(fn),
+        fn(p.Value)
+      );
+    }
+
     public static ReadOnlyReactiveProperty<R> Computed<T1, T2, R>(
       IReadOnlyReactiveProperty<T1> p1,
       IReadOnlyReactiveProperty<T2> p2,
@@ -267,6 +276,68 @@ namespace GodotRx
       return new ReadOnlyReactiveProperty<R>(
         p1.CombineLatest(p2, p3, p4, fn),
         fn(p1.Value, p2.Value, p3.Value, p4.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, T5, R>(
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
+      IReadOnlyReactiveProperty<T4> p4,
+      IReadOnlyReactiveProperty<T5> p5,
+      Func<T1, T2, T3, T4, T5, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        p1.CombineLatest(p2, p3, p4, p5, fn),
+        fn(p1.Value, p2.Value, p3.Value, p4.Value, p5.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, T5, T6, R>(
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
+      IReadOnlyReactiveProperty<T4> p4,
+      IReadOnlyReactiveProperty<T5> p5,
+      IReadOnlyReactiveProperty<T6> p6,
+      Func<T1, T2, T3, T4, T5, T6, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        p1.CombineLatest(p2, p3, p4, p5, p6, fn),
+        fn(p1.Value, p2.Value, p3.Value, p4.Value, p5.Value, p6.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, T5, T6, T7, R>(
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
+      IReadOnlyReactiveProperty<T4> p4,
+      IReadOnlyReactiveProperty<T5> p5,
+      IReadOnlyReactiveProperty<T6> p6,
+      IReadOnlyReactiveProperty<T7> p7,
+      Func<T1, T2, T3, T4, T5, T6, T7, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        p1.CombineLatest(p2, p3, p4, p5, p6, p7, fn),
+        fn(p1.Value, p2.Value, p3.Value, p4.Value, p5.Value, p6.Value, p7.Value)
+      );
+    }
+
+    public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, T5, T6, T7, T8, R>(
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
+      IReadOnlyReactiveProperty<T4> p4,
+      IReadOnlyReactiveProperty<T5> p5,
+      IReadOnlyReactiveProperty<T6> p6,
+      IReadOnlyReactiveProperty<T7> p7,
+      IReadOnlyReactiveProperty<T8> p8,
+      Func<T1, T2, T3, T4, T5, T6, T7, T8, R> fn)
+    {
+      return new ReadOnlyReactiveProperty<R>(
+        p1.CombineLatest(p2, p3, p4, p5, p6, p7, p8, fn),
+        fn(p1.Value, p2.Value, p3.Value, p4.Value, p5.Value, p6.Value, p7.Value, p8.Value)
       );
     }
   }
