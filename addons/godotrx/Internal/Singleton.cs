@@ -5,10 +5,10 @@ using Object = Godot.Object;
 
 namespace GodotRx.Internal
 {
-  internal class Singleton : Node
+  internal sealed class Singleton : Node
   {
-    private static GDScript _gdInstanceScript = (GDScript) GD.Load("res://addons/godotrx/GodotRx.gd");
-    private static Object _gdInstance = (Object) _gdInstanceScript.New();
+    private static readonly GDScript _gdInstanceScript = (GDScript) GD.Load("res://addons/godotrx/GodotRx.gd");
+    private static readonly Object _gdInstance = (Object) _gdInstanceScript.New();
 
     public static int RegisterInstanceTracker(InstanceTracker tracker, Object target)
     {

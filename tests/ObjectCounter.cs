@@ -3,24 +3,27 @@ using System;
 using System.Reactive.Linq;
 using GodotRx;
 
-public class ObjectCounter : Label
+namespace Tests
 {
-  public override void _Ready()
+  public class ObjectCounter : Label
   {
-    this.OnProcess().Subscribe(_ =>
+    public override void _Ready()
     {
-      var objCount = Performance.GetMonitor(Performance.Monitor.ObjectCount);
-      Text = $"Object count: {objCount}";
-    });
+      this.OnProcess().Subscribe(_ =>
+      {
+        var objCount = Performance.GetMonitor(Performance.Monitor.ObjectCount);
+        Text = $"Object count: {objCount}";
+      });
 
-    this.OnProcess()
-      .CombineLatest(this.OnPhysicsProcess(), (a, b) => (a, b))
-      .Sample(TimeSpan.FromSeconds(1), TimeBasedScheduler.Inherit)
-      .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"))
-      .DisposeWith(this);
+      this.OnProcess()
+        .CombineLatest(this.OnPhysicsProcess(), (a, b) => (a, b))
+        .Sample(TimeSpan.FromSeconds(1), TimeBasedScheduler.Inherit)
+        .Subscribe(t => GD.Print($"Process: {t.a} | Physics process: {t.b}"))
+        .DisposeWith(this);
 
-    this.OnActionJustPressed("ui_left")
-      .Subscribe(_ => GD.Print("trigger"))
-      .DisposeWith(this);
+      this.OnActionJustPressed("ui_left")
+        .Subscribe(_ => GD.Print("trigger"))
+        .DisposeWith(this);
+    }
   }
 }

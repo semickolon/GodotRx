@@ -2,11 +2,14 @@ using Godot;
 using System;
 using GodotRx;
 
-public class PauseButton : Button
+namespace Tests
 {
-  public override void _Ready()
+  public class PauseButton : Button
   {
-    this.OnToggled()
-      .Subscribe(paused => GetTree().Paused = paused);
+    public override void _Ready()
+    {
+      this.OnToggled()
+        .Subscribe(paused => GetTree().Paused = paused);
+    }
   }
 }

@@ -24,7 +24,7 @@ namespace GodotRx.Internal
           _onProcess = new Subject<float>();
           SetProcess(true);
         }
-        
+
         return _onProcess.AsObservable();
       }
     }
@@ -38,7 +38,7 @@ namespace GodotRx.Internal
           _onPhysicsProcess = new Subject<float>();
           SetPhysicsProcess(true);
         }
-        
+
         return _onPhysicsProcess.AsObservable();
       }
     }
@@ -66,7 +66,7 @@ namespace GodotRx.Internal
           _onUnhandledInput = new Subject<InputEvent>();
           SetProcessUnhandledInput(true);
         }
-        
+
         return _onUnhandledInput.AsObservable();
       }
     }
@@ -80,7 +80,7 @@ namespace GodotRx.Internal
           _onUnhandledKeyInput = new Subject<InputEventKey>();
           SetProcessUnhandledKeyInput(true);
         }
-        
+
         return _onUnhandledKeyInput.AsObservable();
       }
     }
@@ -126,7 +126,7 @@ namespace GodotRx.Internal
       _onInput?.CompleteAndDispose();
       _onUnhandledInput?.CompleteAndDispose();
       _onUnhandledKeyInput?.CompleteAndDispose();
-      
+
       base.Dispose(disposing);
     }
   }

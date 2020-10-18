@@ -2,19 +2,22 @@ using Godot;
 using System;
 using GodotRx;
 
-public class ToggleButton : Button
+namespace Tests
 {
-  public override void _Ready()
+  public class ToggleButton : Button
   {
-    this.OnToggled()
-      .Subscribe(_ => UpdateText())
-      .DisposeWith(this);
-    
-    UpdateText();
-  }
+    public override void _Ready()
+    {
+      this.OnToggled()
+        .Subscribe(_ => UpdateText())
+        .DisposeWith(this);
 
-  private void UpdateText()
-  {
-    Text = Pressed ? "YES" : "NO";
+      UpdateText();
+    }
+
+    private void UpdateText()
+    {
+      Text = Pressed ? "YES" : "NO";
+    }
   }
 }

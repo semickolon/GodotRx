@@ -2,19 +2,22 @@ using Godot;
 using System;
 using GodotRx;
 
-public class ButtonTarget : Button
+namespace Tests
 {
-  Button? buttonSource;
-
-  public override void _Ready()
+  public class ButtonTarget : Button
   {
-    buttonSource = GetNode<Button>("../ButtonSource");
-    buttonSource.OnPressed()
-      .Subscribe(_ => GD.Print(this))
-      .DisposeWith(this);
-    
-    this.OnPressed()
-      .Subscribe(_ => QueueFree())
-      .DisposeWith(this);
+    private Button? buttonSource;
+
+    public override void _Ready()
+    {
+      buttonSource = GetNode<Button>("../ButtonSource");
+      buttonSource.OnPressed()
+        .Subscribe(_ => GD.Print(this))
+        .DisposeWith(this);
+
+      this.OnPressed()
+        .Subscribe(_ => QueueFree())
+        .DisposeWith(this);
+    }
   }
 }

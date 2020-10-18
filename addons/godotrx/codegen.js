@@ -159,7 +159,7 @@ ${
 
 String.prototype.indent = function() {
   return this.split('\n')
-    .map(s => INDENT + s)
+    .map(s => s.trim().length > 0 ? INDENT + s : '')
     .join('\n')
 }
 

@@ -23,10 +23,10 @@ namespace GodotRx
     public bool IsDisposed { get; private set; } = false;
 
     private T _latestValue;
-    private IDisposable _sourceSubscription;
-    private List<IObserver<T>> _observers = new List<IObserver<T>>();
-    private bool _distinctUntilChanged;
-    private bool _raiseLatestValueOnSubscribe;
+    private readonly IDisposable _sourceSubscription;
+    private readonly List<IObserver<T>> _observers = new List<IObserver<T>>();
+    private readonly bool _distinctUntilChanged;
+    private readonly bool _raiseLatestValueOnSubscribe;
 
     public ReadOnlyReactiveProperty(
       IObservable<T> source,
@@ -44,9 +44,9 @@ namespace GodotRx
     {
       if (IsDisposed)
         return;
-      
+
       IsDisposed = true;
-      
+
       _observers.SafeForEach(o => o.OnCompleted());
       _observers.Clear();
 
@@ -93,7 +93,7 @@ namespace GodotRx
 
   public class ReactiveProperty<T> : IReactiveProperty<T>
   {
-    public T Value { 
+    public T Value {
       get => _latestValue;
       set
       {
@@ -108,10 +108,10 @@ namespace GodotRx
     public bool IsDisposed { get; private set; } = false;
 
     private T _latestValue;
-    private IDisposable? _sourceSubscription = null;
-    private List<IObserver<T>> _observers = new List<IObserver<T>>();
-    private bool _distinctUntilChanged;
-    private bool _raiseLatestValueOnSubscribe;
+    private readonly IDisposable? _sourceSubscription = null;
+    private readonly List<IObserver<T>> _observers = new List<IObserver<T>>();
+    private readonly bool _distinctUntilChanged;
+    private readonly bool _raiseLatestValueOnSubscribe;
 
     public ReactiveProperty(
       T initialValue,
@@ -137,9 +137,9 @@ namespace GodotRx
     {
       if (IsDisposed)
         return;
-      
+
       IsDisposed = true;
-      
+
       _observers.SafeForEach(o => o.OnCompleted());
       _observers.Clear();
 
@@ -179,8 +179,8 @@ namespace GodotRx
       bool raiseLatestValueOnSubscribe = true)
     {
       return FromMember(
-        target, 
-        memberSelector, 
+        target,
+        memberSelector,
         x => x,
         x => x,
         distinctUntilChanged,
@@ -200,7 +200,7 @@ namespace GodotRx
       {
         throw new ArgumentException("Invalid memberSelector, not a MemberExpression");
       }
-      
+
       var targetParam = Expression.Parameter(typeof(TTarget), "target");
       var valueParam = Expression.Parameter(typeof(TProp), "value");
       var memberAccessExpr = Expression.PropertyOrField(targetParam, memberExpr.Member.Name);
@@ -210,7 +210,7 @@ namespace GodotRx
       var getter = memberSelector.Compile();
       var setter = setterExpr.Compile();
 
-      return ReactiveProperty.FromGetSet(
+      return FromGetSet(
         () => convert(getter(target)),
         x => setter(target, convertBack(x)),
         distinctUntilChanged,
@@ -235,37 +235,37 @@ namespace GodotRx
     }
 
     public static ReadOnlyReactiveProperty<R> Computed<T1, T2, R>(
-      IReadOnlyReactiveProperty<T1> p1, 
-      IReadOnlyReactiveProperty<T2> p2, 
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
       Func<T1, T2, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, fn),
+        p1.CombineLatest(p2, fn),
         fn(p1.Value, p2.Value)
       );
     }
 
     public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, R>(
-      IReadOnlyReactiveProperty<T1> p1, 
-      IReadOnlyReactiveProperty<T2> p2, 
-      IReadOnlyReactiveProperty<T3> p3, 
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
       Func<T1, T2, T3, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, p3, fn),
+        p1.CombineLatest(p2, p3, fn),
         fn(p1.Value, p2.Value, p3.Value)
       );
     }
 
     public static ReadOnlyReactiveProperty<R> Computed<T1, T2, T3, T4, R>(
-      IReadOnlyReactiveProperty<T1> p1, 
-      IReadOnlyReactiveProperty<T2> p2, 
-      IReadOnlyReactiveProperty<T3> p3, 
-      IReadOnlyReactiveProperty<T4> p4, 
+      IReadOnlyReactiveProperty<T1> p1,
+      IReadOnlyReactiveProperty<T2> p2,
+      IReadOnlyReactiveProperty<T3> p3,
+      IReadOnlyReactiveProperty<T4> p4,
       Func<T1, T2, T3, T4, R> fn)
     {
       return new ReadOnlyReactiveProperty<R>(
-        Observable.CombineLatest(p1, p2, p3, p4, fn),
+        p1.CombineLatest(p2, p3, p4, fn),
         fn(p1.Value, p2.Value, p3.Value, p4.Value)
       );
     }

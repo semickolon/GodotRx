@@ -7,14 +7,14 @@ using System.Reactive.Linq;
 
 namespace GodotRx
 {
-  public class TimeBasedScheduler : IScheduler
+  public sealed class TimeBasedScheduler : IScheduler
   {
     public static readonly TimeBasedScheduler Process = new TimeBasedScheduler(true);
     public static readonly TimeBasedScheduler Inherit = new TimeBasedScheduler(false);
 
     public DateTimeOffset Now => DateTimeOffset.FromUnixTimeMilliseconds((long) OS.GetSystemTimeMsecs());
 
-    private bool _pauseModeProcess;
+    private readonly bool _pauseModeProcess;
 
     private TimeBasedScheduler(bool pauseModeProcess)
     {

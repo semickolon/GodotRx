@@ -16,7 +16,7 @@ namespace GodotRx
   {
     public static IObservable<Unit> ObserveSignal(this Object obj, string signalName)
       => ObserveSignal(obj, signalName, new EventTracker());
-    
+
     public static IObservable<T> ObserveSignal<T>(this Object obj, string signalName)
       => ObserveSignal(obj, signalName, new EventTracker<T>());
 
@@ -42,7 +42,7 @@ namespace GodotRx
       var subscriptionList = new List<IDisposable>();
       var onSignal = tracker.OnSignal;
       var instId = obj.GetInstanceId();
-      
+
       InstanceTracker.Of(obj).Freed += () =>
       {
         // GD.Print($"freed {instId}:{signalName}");
@@ -50,12 +50,12 @@ namespace GodotRx
         tracker.DeferredFree();
       };
 
-      return Observable.Create<T>(observer => 
+      return Observable.Create<T>(observer =>
       {
         var subscription = onSignal.Subscribe(observer.OnNext);
         subscriptionList.Add(subscription);
 
-        return Disposable.Create(() => 
+        return Disposable.Create(() =>
         {
           subscription.Dispose();
           subscriptionList.Remove(subscription);
@@ -70,7 +70,7 @@ namespace GodotRx
 
     public static IObservable<Unit> OnFramePreDraw(this Object obj)
       => VisualServerSignals.OnFramePreDraw();
-    
+
     public static IObservable<Unit> OnNextFramePreDraw(this Object obj)
       => obj.OnFramePreDraw().Take(1);
 
@@ -79,7 +79,7 @@ namespace GodotRx
 
     public static IObservable<Unit> OnFramePostDraw(this Object obj)
       => VisualServerSignals.OnFramePostDraw();
-    
+
     public static IObservable<Unit> OnNextFramePostDraw(this Object obj)
       => obj.OnFramePostDraw().Take(1);
 

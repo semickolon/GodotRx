@@ -19,7 +19,7 @@ namespace GodotRx
 
     public static IObservable<InputEvent> OnInput(this Node node)
       => node.GetNodeTracker().OnInput;
-    
+
     public static IObservable<InputEvent> OnUnhandledInput(this Node node)
       => node.GetNodeTracker().OnUnhandledInput;
 
@@ -32,8 +32,10 @@ namespace GodotRx
 
       if (tracker == null)
       {
-        tracker = new NodeTracker();
-        tracker.Name = NodeTracker.DefaultName;
+        tracker = new NodeTracker
+        {
+          Name = NodeTracker.DefaultName
+        };
         node.AddChild(tracker);
       }
 
@@ -42,16 +44,16 @@ namespace GodotRx
     #endregion
 
     #region Input
-    public static IObservable<InputEventMouseButton> OnMouseDown(this Node node, ButtonList button = Godot.ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnMouseDown(this Node node, ButtonList button = ButtonList.Left)
       => node.OnMouseButtonEvent(false, button, true);
 
-    public static IObservable<InputEventMouseButton> OnMouseUp(this Node node, ButtonList button = Godot.ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnMouseUp(this Node node, ButtonList button = ButtonList.Left)
       => node.OnMouseButtonEvent(false, button, false);
 
-    public static IObservable<InputEventMouseButton> OnUnhandledMouseDown(this Node node, ButtonList button = Godot.ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnUnhandledMouseDown(this Node node, ButtonList button = ButtonList.Left)
       => node.OnMouseButtonEvent(true, button, true);
 
-    public static IObservable<InputEventMouseButton> OnUnhandledMouseUp(this Node node, ButtonList button = Godot.ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnUnhandledMouseUp(this Node node, ButtonList button = ButtonList.Left)
       => node.OnMouseButtonEvent(true, button, false);
 
     private static IObservable<InputEventMouseButton> OnMouseButtonEvent(this Node node, bool unhandled, ButtonList button, bool pressed)

@@ -1,10 +1,13 @@
 using Godot;
 using System;
 
-public class ButtonUntracked : Godot.Button
+namespace Tests
 {
-  public override void _Ready()
+  public class ButtonUntracked : Button
   {
-    this.Connect("pressed", this, "queue_free");
+    public override void _Ready()
+    {
+      this.Connect("pressed", this, "queue_free");
+    }
   }
 }

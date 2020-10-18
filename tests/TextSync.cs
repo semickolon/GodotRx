@@ -3,25 +3,28 @@ using System;
 using GodotRx;
 using System.Reactive.Linq;
 
-public class TextSync : Control
+namespace Tests
 {
-  Label? label;
-  LineEdit? lineEdit;
-
-  public override void _Ready()
+  public class TextSync : Control
   {
-    label = GetNode<Label>("Label");
-    lineEdit = GetNode<LineEdit>("LineEdit");
+    private Label? label;
+    private LineEdit? lineEdit;
 
-    lineEdit.OnTextChanged()
-      .Subscribe(x => label.Text = x)
-      .DisposeWith(this);
-    
-    lineEdit.OnTextChanged()
-      .Where(x => x == "bye")
-      .Take(1)
-      .Delay(TimeSpan.FromSeconds(0.2), TimeBasedScheduler.Inherit)
-      .Subscribe(_ => QueueFree())
-      .DisposeWith(this);
+    public override void _Ready()
+    {
+      label = GetNode<Label>("Label");
+      lineEdit = GetNode<LineEdit>("LineEdit");
+
+      lineEdit.OnTextChanged()
+        .Subscribe(x => label.Text = x)
+        .DisposeWith(this);
+
+      lineEdit.OnTextChanged()
+        .Where(x => x == "bye")
+        .Take(1)
+        .Delay(TimeSpan.FromSeconds(0.2), TimeBasedScheduler.Inherit)
+        .Subscribe(_ => QueueFree())
+        .DisposeWith(this);
+    }
   }
 }

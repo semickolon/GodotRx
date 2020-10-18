@@ -12,7 +12,7 @@
 [ext_resource path="res://tests/TextSync.cs" type="Script" id=10]
 [ext_resource path="res://tests/PauseButton.cs" type="Script" id=12]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 52.9719, 49.3549 )
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -85,10 +85,10 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
-margin_left = 699.725
-margin_top = 116.5
-margin_right = 1007.73
-margin_bottom = 578.5
+margin_left = 703.725
+margin_top = 120.5
+margin_right = 1011.73
+margin_bottom = 582.5
 color = Color( 0.45098, 0.278431, 0.278431, 1 )
 script = ExtResource( 5 )
 __meta__ = {
@@ -103,7 +103,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2( 142.212, 341.815 )
