@@ -12,3 +12,5 @@ data_*/
 
 # IDEs
 .vs/
+.idea
+.godot

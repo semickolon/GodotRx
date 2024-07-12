@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class ButtonTarget : Button
+  public partial class ButtonTarget : Button
   {
     private Button? buttonSource;
 

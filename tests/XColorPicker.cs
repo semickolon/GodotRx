@@ -5,7 +5,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class XColorPicker : ColorPicker
+  public partial class XColorPicker : ColorPicker
   {
     public override void _Ready()
     {

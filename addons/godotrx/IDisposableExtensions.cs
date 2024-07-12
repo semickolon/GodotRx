@@ -3,7 +3,7 @@ using GodotRx.Internal;
 using System;
 using System.Collections.Generic;
 
-using Object = Godot.Object;
+using Object = Godot.GodotObject;
 
 namespace GodotRx
 {

@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class ToggleButton : Button
+  public partial class ToggleButton : Button
   {
     public override void _Ready()
     {
@@ -17,7 +17,7 @@ namespace Tests
 
     private void UpdateText()
     {
-      Text = Pressed ? "YES" : "NO";
+      Text = ButtonPressed ? "YES" : "NO";
     }
   }
 }

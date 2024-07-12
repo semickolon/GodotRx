@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class CounterLabel : Label
+  public partial class CounterLabel : Label
   {
     public override void _Ready()
     {
@@ -25,7 +25,7 @@ namespace Tests
         .DisposeWith(this);
     }
 
-    public class Vector2i
+    public partial class Vector2i
     {
       public int x = 0;
       public int y = 0;

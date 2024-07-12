@@ -6,26 +6,26 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[  ]
-_global_script_class_icons={
-
-}
+config_version=5
 
 [application]
 
 config/name="GodotRx"
+config/features=PackedStringArray("4.2", "C#")
 config/icon="res://icon.png"
 
 [autoload]
 
 GodotRx="*res://addons/godotrx/Internal/Singleton.cs"
 
+[dotnet]
+
+project/assembly_name="GodotRx"
+
 [editor_plugins]
 
-enabled=PoolStringArray( "godotrx" )
+enabled=PackedStringArray("godotrx")
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+environment/defaults/default_environment="res://default_env.tres"

@@ -1,6 +1,6 @@
 extends Node
 
-export var save_path = "res://addons/godotrx/signal_data.json"
+@export var save_path = "res://addons/godotrx/signal_data.json"
 
 func _ready():
 	save_signal_data()
@@ -11,13 +11,12 @@ func save_signal_data():
 	for cls in ClassDB.get_class_list():
 		var cls_signal_data: Dictionary = get_class_signal_data(cls)
 
-		if not cls_signal_data.empty():
+		if not cls_signal_data.is_empty():
 			db[cls] = cls_signal_data
 
-	var json = JSON.print(db)
-	var f = File.new()
+	var json = JSON.stringify(db)
 
-	f.open(save_path, File.WRITE)
+	var f = FileAccess.open(save_path, FileAccess.WRITE)
 	f.store_string(json)
 	f.close()
 

@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class ReactiveLineEdit : LineEdit
+  public partial class ReactiveLineEdit : LineEdit
   {
     public new readonly ReactiveProperty<string> Text;
 
@@ -28,7 +28,7 @@ namespace Tests
         .DisposeWith(this);
     }
 
-    public override bool _Set(string property, object value)
+    public override bool _Set(StringName property, Variant value)
     {
       if (property == "text")
       {
@@ -38,5 +38,6 @@ namespace Tests
 
       return false;
     }
+
   }
 }

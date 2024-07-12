@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 
 var id = get_instance_id()
 var GodotRx: Object

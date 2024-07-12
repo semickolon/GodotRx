@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class ButtonTracked : Button
+  public partial class ButtonTracked : Button
   {
     public override void _Ready()
     {

@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 
 namespace Tests
 {
-  public class TextSync : Control
+  public partial class TextSync : Control
   {
     private Label? label;
     private ReactiveLineEdit? lineEdit;

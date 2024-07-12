@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 
 namespace Tests
 {
-  public class Area2D : Godot.Area2D
+  public partial class Area2D : Godot.Area2D
   {
     public override async void _Ready()
     {

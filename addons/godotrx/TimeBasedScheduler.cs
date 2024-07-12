@@ -12,7 +12,7 @@ namespace GodotRx
     public static readonly TimeBasedScheduler Process = new TimeBasedScheduler(true);
     public static readonly TimeBasedScheduler Inherit = new TimeBasedScheduler(false);
 
-    public DateTimeOffset Now => DateTimeOffset.FromUnixTimeMilliseconds((long) OS.GetSystemTimeMsecs());
+    public DateTimeOffset Now => DateTimeOffset.FromUnixTimeMilliseconds((long) Time.GetUnixTimeFromSystem() * 1000);
 
     private readonly bool _pauseModeProcess;
 

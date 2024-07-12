@@ -2,11 +2,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-using Object = Godot.Object;
+using Object = Godot.GodotObject;
 
 namespace GodotRx.Internal
 {
-  internal sealed class InstanceTracker : Object
+  internal sealed partial class InstanceTracker : Object
   {
     public static readonly string OnFreedMethod = nameof(OnTrackerFreed);
 

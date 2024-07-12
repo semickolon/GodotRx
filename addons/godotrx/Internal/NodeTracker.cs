@@ -1,27 +1,27 @@
-using Godot;
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Godot;
 
 namespace GodotRx.Internal
 {
-  internal class NodeTracker : Node
+  internal partial class NodeTracker : Node
   {
     public static readonly string DefaultName = "__NodeTracker__";
 
-    private Subject<float>? _onProcess;
-    private Subject<float>? _onPhysicsProcess;
+    private Subject<double>? _onProcess;
+    private Subject<double>? _onPhysicsProcess;
     private Subject<InputEvent>? _onInput;
     private Subject<InputEvent>? _onUnhandledInput;
     private Subject<InputEventKey>? _onUnhandledKeyInput;
 
-    public IObservable<float> OnProcess
+    public IObservable<double> OnProcess
     {
       get
       {
         if (_onProcess == null)
         {
-          _onProcess = new Subject<float>();
+          _onProcess = new Subject<double>();
           SetProcess(true);
         }
 
@@ -29,13 +29,13 @@ namespace GodotRx.Internal
       }
     }
 
-    public IObservable<float> OnPhysicsProcess
+    public IObservable<double> OnPhysicsProcess
     {
       get
       {
         if (_onPhysicsProcess == null)
         {
-          _onPhysicsProcess = new Subject<float>();
+          _onPhysicsProcess = new Subject<double>();
           SetPhysicsProcess(true);
         }
 
@@ -94,12 +94,12 @@ namespace GodotRx.Internal
       SetProcessUnhandledKeyInput(false);
     }
 
-    public override void _Process(float delta)
+    public override void _Process(double delta)
     {
       _onProcess?.OnNext(delta);
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double delta)
     {
       _onPhysicsProcess?.OnNext(delta);
     }
@@ -114,9 +114,12 @@ namespace GodotRx.Internal
       _onUnhandledInput?.OnNext(ev);
     }
 
-    public override void _UnhandledKeyInput(InputEventKey ev)
+    public override void _UnhandledKeyInput(InputEvent ev)
     {
-      _onUnhandledKeyInput?.OnNext(ev);
+      if (ev is InputEventKey eventKey)
+      {
+        _onUnhandledKeyInput?.OnNext(eventKey); 
+      }
     }
 
     protected override void Dispose(bool disposing)

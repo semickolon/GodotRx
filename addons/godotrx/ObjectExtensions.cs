@@ -8,7 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 
-using Object = Godot.Object;
+using Object = Godot.GodotObject;
 
 namespace GodotRx
 {
@@ -37,7 +37,7 @@ namespace GodotRx
 
     private static IObservable<T> ObserveSignal<T>(Object obj, string signalName, BaseEventTracker<T> tracker)
     {
-      obj.Connect(signalName, tracker, tracker.TargetMethod);
+      obj.Connect(signalName, new Callable(tracker, tracker.TargetMethod));
 
       var subscriptionList = new List<IDisposable>();
       var onSignal = tracker.OnSignal;

@@ -4,7 +4,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class PauseButton : Button
+  public partial class PauseButton : Button
   {
     public override void _Ready()
     {

@@ -4,43 +4,43 @@ using System.Reactive;
 
 namespace GodotRx {
   public static class SignalExtensions {
-    public static IObservable<Unit> OnScriptChanged(this Godot.Object obj)
+    public static IObservable<Unit> OnScriptChanged(this Godot.GodotObject obj)
       => obj.ObserveSignal("script_changed");
 
     public static IObservable<Unit> OnChanged(this Godot.Resource obj)
       => obj.ObserveSignal("changed");
 
-    public static IObservable<Unit> OnConnectedToServer(this Godot.MultiplayerAPI obj)
+    public static IObservable<Unit> OnConnectedToServer(this MultiplayerApi obj)
       => obj.ObserveSignal("connected_to_server");
 
-    public static IObservable<Unit> OnConnectionFailed(this Godot.MultiplayerAPI obj)
+    public static IObservable<Unit> OnConnectionFailed(this MultiplayerApi obj)
       => obj.ObserveSignal("connection_failed");
 
-    public static IObservable<(int Id, byte[] Packet)> OnNetworkPeerPacket(this Godot.MultiplayerAPI obj)
+    public static IObservable<(int Id, byte[] Packet)> OnNetworkPeerPacket(this MultiplayerApi obj)
       => obj.ObserveSignal<int, byte[]>("network_peer_packet");
 
-    public static IObservable<int> OnNetworkPeerDisconnected(this Godot.MultiplayerAPI obj)
+    public static IObservable<int> OnNetworkPeerDisconnected(this MultiplayerApi obj)
       => obj.ObserveSignal<int>("network_peer_disconnected");
 
-    public static IObservable<int> OnNetworkPeerConnected(this Godot.MultiplayerAPI obj)
+    public static IObservable<int> OnNetworkPeerConnected(this Godot.MultiplayerApi obj)
       => obj.ObserveSignal<int>("network_peer_connected");
 
-    public static IObservable<Unit> OnServerDisconnected(this Godot.MultiplayerAPI obj)
+    public static IObservable<Unit> OnServerDisconnected(this Godot.MultiplayerApi obj)
       => obj.ObserveSignal("server_disconnected");
 
-    public static IObservable<Unit> OnConnectionFailed(this Godot.NetworkedMultiplayerPeer obj)
+    public static IObservable<Unit> OnConnectionFailed(this Godot.MultiplayerPeer obj)
       => obj.ObserveSignal("connection_failed");
 
-    public static IObservable<Unit> OnConnectionSucceeded(this Godot.NetworkedMultiplayerPeer obj)
+    public static IObservable<Unit> OnConnectionSucceeded(this Godot.MultiplayerPeer obj)
       => obj.ObserveSignal("connection_succeeded");
 
-    public static IObservable<int> OnPeerDisconnected(this Godot.NetworkedMultiplayerPeer obj)
+    public static IObservable<int> OnPeerDisconnected(this Godot.MultiplayerPeer obj)
       => obj.ObserveSignal<int>("peer_disconnected");
 
-    public static IObservable<int> OnPeerConnected(this Godot.NetworkedMultiplayerPeer obj)
+    public static IObservable<int> OnPeerConnected(this Godot.MultiplayerPeer obj)
       => obj.ObserveSignal<int>("peer_connected");
 
-    public static IObservable<Unit> OnServerDisconnected(this Godot.NetworkedMultiplayerPeer obj)
+    public static IObservable<Unit> OnServerDisconnected(this Godot.MultiplayerPeer obj)
       => obj.ObserveSignal("server_disconnected");
 
     public static IObservable<(string Permission, bool Granted)> OnRequestPermissionsResult(this Godot.MainLoop obj)
@@ -64,10 +64,10 @@ namespace GodotRx {
     public static IObservable<Unit> OnTreeExited(this Godot.Node obj)
       => obj.ObserveSignal("tree_exited");
 
-    public static IObservable<Unit> OnSizeChanged(this Godot.Viewport obj)
+    public static IObservable<Unit> OnSizeChanged(this Godot.SubViewport obj)
       => obj.ObserveSignal("size_changed");
 
-    public static IObservable<Godot.Control> OnGuiFocusChanged(this Godot.Viewport obj)
+    public static IObservable<Godot.Control> OnGuiFocusChanged(this Godot.SubViewport obj)
       => obj.ObserveSignal<Godot.Control>("gui_focus_changed");
 
     public static IObservable<Unit> OnMouseExited(this Godot.Control obj)
@@ -97,7 +97,7 @@ namespace GodotRx {
     public static IObservable<Unit> OnFocusExited(this Godot.Control obj)
       => obj.ObserveSignal("focus_exited");
 
-    public static IObservable<(int Result, int ResponseCode, string[] Headers, byte[] Body)> OnRequestCompleted(this Godot.HTTPRequest obj)
+    public static IObservable<(int Result, int ResponseCode, string[] Headers, byte[] Body)> OnRequestCompleted(this Godot.HttpRequest obj)
       => obj.ObserveSignal<int, int, string[], byte[]>("request_completed");
 
     public static IObservable<Unit> OnTimeout(this Godot.Timer obj)
@@ -175,22 +175,22 @@ namespace GodotRx {
     public static IObservable<Unit> OnSortChildren(this Godot.Container obj)
       => obj.ObserveSignal("sort_children");
 
-    public static IObservable<int> OnTabClose(this Godot.Tabs obj)
+    public static IObservable<int> OnTabClose(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("tab_close");
 
-    public static IObservable<int> OnTabClicked(this Godot.Tabs obj)
+    public static IObservable<int> OnTabClicked(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("tab_clicked");
 
-    public static IObservable<int> OnRepositionActiveTabRequest(this Godot.Tabs obj)
+    public static IObservable<int> OnRepositionActiveTabRequest(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("reposition_active_tab_request");
 
-    public static IObservable<int> OnRightButtonPressed(this Godot.Tabs obj)
+    public static IObservable<int> OnRightButtonPressed(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("right_button_pressed");
 
-    public static IObservable<int> OnTabChanged(this Godot.Tabs obj)
+    public static IObservable<int> OnTabChanged(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("tab_changed");
 
-    public static IObservable<int> OnTabHover(this Godot.Tabs obj)
+    public static IObservable<int> OnTabHover(this Godot.TabBar obj)
       => obj.ObserveSignal<int>("tab_hover");
 
     public static IObservable<Unit> OnScrollStarted(this Godot.ScrollContainer obj)
@@ -226,7 +226,7 @@ namespace GodotRx {
     public static IObservable<Unit> OnTextChangeRejected(this Godot.LineEdit obj)
       => obj.ObserveSignal("text_change_rejected");
 
-    public static IObservable<Unit> OnFinished(this Godot.VideoPlayer obj)
+    public static IObservable<Unit> OnFinished(this Godot.VideoStreamPlayer obj)
       => obj.ObserveSignal("finished");
 
     public static IObservable<int> OnIndexPressed(this Godot.PopupMenu obj)
@@ -397,7 +397,7 @@ namespace GodotRx {
     public static IObservable<Godot.Node> OnNodeUnselected(this Godot.GraphEdit obj)
       => obj.ObserveSignal<Godot.Node>("node_unselected");
 
-    public static IObservable<Unit> OnVisibilityChanged(this Godot.Spatial obj)
+    public static IObservable<Unit> OnVisibilityChanged(this Godot.Node3D obj)
       => obj.ObserveSignal("visibility_changed");
 
     public static IObservable<Unit> OnCachesCleared(this Godot.AnimationPlayer obj)
@@ -412,17 +412,17 @@ namespace GodotRx {
     public static IObservable<string> OnAnimationFinished(this Godot.AnimationPlayer obj)
       => obj.ObserveSignal<string>("animation_finished");
 
-    public static IObservable<(Godot.Object Object, NodePath Key, float Elapsed, Godot.Object Value)> OnTweenStep(this Godot.Tween obj)
-      => obj.ObserveSignal<Godot.Object, NodePath, float, Godot.Object>("tween_step");
+    public static IObservable<(Godot.GodotObject Object, NodePath Key, float Elapsed, Godot.GodotObject Value)> OnTweenStep(this Godot.Tween obj)
+      => obj.ObserveSignal<Godot.GodotObject, NodePath, float, Godot.GodotObject>("tween_step");
 
     public static IObservable<Unit> OnTweenAllCompleted(this Godot.Tween obj)
       => obj.ObserveSignal("tween_all_completed");
 
-    public static IObservable<(Godot.Object Object, NodePath Key)> OnTweenCompleted(this Godot.Tween obj)
-      => obj.ObserveSignal<Godot.Object, NodePath>("tween_completed");
+    public static IObservable<(Godot.GodotObject Object, NodePath Key)> OnTweenCompleted(this Godot.Tween obj)
+      => obj.ObserveSignal<Godot.GodotObject, NodePath>("tween_completed");
 
-    public static IObservable<(Godot.Object Object, NodePath Key)> OnTweenStarted(this Godot.Tween obj)
-      => obj.ObserveSignal<Godot.Object, NodePath>("tween_started");
+    public static IObservable<(Godot.GodotObject Object, NodePath Key)> OnTweenStarted(this Godot.Tween obj)
+      => obj.ObserveSignal<Godot.GodotObject, NodePath>("tween_started");
 
     public static IObservable<Unit> OnRemovedFromGraph(this Godot.AnimationNode obj)
       => obj.ObserveSignal("removed_from_graph");
@@ -436,16 +436,16 @@ namespace GodotRx {
     public static IObservable<Unit> OnAdvanceConditionChanged(this Godot.AnimationNodeStateMachineTransition obj)
       => obj.ObserveSignal("advance_condition_changed");
 
-    public static IObservable<Godot.Mesh> OnMeshUpdated(this Godot.ARVRController obj)
+    public static IObservable<Godot.Mesh> OnMeshUpdated(this Godot.XRController3D obj)
       => obj.ObserveSignal<Godot.Mesh>("mesh_updated");
 
-    public static IObservable<int> OnButtonRelease(this Godot.ARVRController obj)
+    public static IObservable<int> OnButtonRelease(this Godot.XRController3D obj)
       => obj.ObserveSignal<int>("button_release");
 
-    public static IObservable<int> OnButtonPressed(this Godot.ARVRController obj)
+    public static IObservable<int> OnButtonPressed(this Godot.XRController3D obj)
       => obj.ObserveSignal<int>("button_pressed");
 
-    public static IObservable<Godot.Mesh> OnMeshUpdated(this Godot.ARVRAnchor obj)
+    public static IObservable<Godot.Mesh> OnMeshUpdated(this Godot.XRAnchor3D obj)
       => obj.ObserveSignal<Godot.Mesh>("mesh_updated");
 
     public static IObservable<Unit> OnFrameChanged(this Godot.Sprite3D obj)
@@ -457,70 +457,70 @@ namespace GodotRx {
     public static IObservable<Unit> OnRangeChanged(this Godot.Curve obj)
       => obj.ObserveSignal("range_changed");
 
-    public static IObservable<Unit> OnMouseExited(this Godot.CollisionObject obj)
+    public static IObservable<Unit> OnMouseExited(this Godot.CollisionObject3D obj)
       => obj.ObserveSignal("mouse_exited");
 
-    public static IObservable<Unit> OnMouseEntered(this Godot.CollisionObject obj)
+    public static IObservable<Unit> OnMouseEntered(this Godot.CollisionObject3D obj)
       => obj.ObserveSignal("mouse_entered");
 
-    public static IObservable<(Godot.Node Camera, Godot.InputEvent Event, Vector3 ClickPosition, Vector3 ClickNormal, int ShapeIdx)> OnInputEvent(this Godot.CollisionObject obj)
+    public static IObservable<(Godot.Node Camera3D, Godot.InputEvent Event, Vector3 ClickPosition, Vector3 ClickNormal, int ShapeIdx)> OnInputEvent(this Godot.CollisionObject3D obj)
       => obj.ObserveSignal<Godot.Node, Godot.InputEvent, Vector3, Vector3, int>("input_event");
 
-    public static IObservable<Godot.Node> OnBodyEntered(this Godot.RigidBody obj)
+    public static IObservable<Godot.Node> OnBodyEntered(this Godot.RigidBody3D obj)
       => obj.ObserveSignal<Godot.Node>("body_entered");
 
-    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int LocalShape)> OnBodyShapeEntered(this Godot.RigidBody obj)
+    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int LocalShape)> OnBodyShapeEntered(this Godot.RigidBody3D obj)
       => obj.ObserveSignal<int, Godot.Node, int, int>("body_shape_entered");
 
-    public static IObservable<Unit> OnSleepingStateChanged(this Godot.RigidBody obj)
+    public static IObservable<Unit> OnSleepingStateChanged(this Godot.RigidBody3D obj)
       => obj.ObserveSignal("sleeping_state_changed");
 
-    public static IObservable<Godot.Node> OnBodyExited(this Godot.RigidBody obj)
+    public static IObservable<Godot.Node> OnBodyExited(this Godot.RigidBody3D obj)
       => obj.ObserveSignal<Godot.Node>("body_exited");
 
-    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int LocalShape)> OnBodyShapeExited(this Godot.RigidBody obj)
+    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int LocalShape)> OnBodyShapeExited(this Godot.RigidBody3D obj)
       => obj.ObserveSignal<int, Godot.Node, int, int>("body_shape_exited");
 
-    public static IObservable<Godot.Area> OnAreaExited(this Godot.Area obj)
-      => obj.ObserveSignal<Godot.Area>("area_exited");
+    public static IObservable<Godot.Area3D> OnAreaExited(this Godot.Area3D obj)
+      => obj.ObserveSignal<Godot.Area3D>("area_exited");
 
-    public static IObservable<(int AreaId, Godot.Area Area, int AreaShape, int SelfShape)> OnAreaShapeExited(this Godot.Area obj)
-      => obj.ObserveSignal<int, Godot.Area, int, int>("area_shape_exited");
+    public static IObservable<(int AreaId, Godot.Area3D Area3D, int AreaShape, int SelfShape)> OnAreaShapeExited(this Godot.Area3D obj)
+      => obj.ObserveSignal<int, Godot.Area3D, int, int>("area_shape_exited");
 
-    public static IObservable<Godot.Node> OnBodyEntered(this Godot.Area obj)
+    public static IObservable<Godot.Node> OnBodyEntered(this Godot.Area3D obj)
       => obj.ObserveSignal<Godot.Node>("body_entered");
 
-    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int AreaShape)> OnBodyShapeEntered(this Godot.Area obj)
+    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int AreaShape)> OnBodyShapeEntered(this Godot.Area3D obj)
       => obj.ObserveSignal<int, Godot.Node, int, int>("body_shape_entered");
 
-    public static IObservable<Godot.Area> OnAreaEntered(this Godot.Area obj)
-      => obj.ObserveSignal<Godot.Area>("area_entered");
+    public static IObservable<Godot.Area3D> OnAreaEntered(this Godot.Area3D obj)
+      => obj.ObserveSignal<Godot.Area3D>("area_entered");
 
-    public static IObservable<(int AreaId, Godot.Area Area, int AreaShape, int SelfShape)> OnAreaShapeEntered(this Godot.Area obj)
-      => obj.ObserveSignal<int, Godot.Area, int, int>("area_shape_entered");
+    public static IObservable<(int AreaId, Godot.Area3D Area3D, int AreaShape, int SelfShape)> OnAreaShapeEntered(this Godot.Area3D obj)
+      => obj.ObserveSignal<int, Godot.Area3D, int, int>("area_shape_entered");
 
-    public static IObservable<Godot.Node> OnBodyExited(this Godot.Area obj)
+    public static IObservable<Godot.Node> OnBodyExited(this Godot.Area3D obj)
       => obj.ObserveSignal<Godot.Node>("body_exited");
 
-    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int AreaShape)> OnBodyShapeExited(this Godot.Area obj)
+    public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int AreaShape)> OnBodyShapeExited(this Godot.Area3D obj)
       => obj.ObserveSignal<int, Godot.Node, int, int>("body_shape_exited");
 
-    public static IObservable<(string GroupName, Godot.Collections.Array Parameters)> OnBroadcast(this Godot.ProximityGroup obj)
-      => obj.ObserveSignal<string, Godot.Collections.Array>("broadcast");
+    // public static IObservable<(string GroupName, Godot.Collections.Array Parameters)> OnBroadcast(this Godot.Prox obj)
+    //   => obj.ObserveSignal<string, Godot.Collections.Array>("broadcast");
 
-    public static IObservable<Unit> OnCurveChanged(this Godot.Path obj)
+    public static IObservable<Unit> OnCurveChanged(this Godot.Path3D obj)
       => obj.ObserveSignal("curve_changed");
 
-    public static IObservable<Godot.Camera> OnCameraExited(this Godot.VisibilityNotifier obj)
-      => obj.ObserveSignal<Godot.Camera>("camera_exited");
+    public static IObservable<Godot.Camera3D> OnCameraExited(this Godot.VisibleOnScreenNotifier3D obj)
+      => obj.ObserveSignal<Godot.Camera3D>("camera_exited");
 
-    public static IObservable<Unit> OnScreenEntered(this Godot.VisibilityNotifier obj)
+    public static IObservable<Unit> OnScreenEntered(this Godot.VisibleOnScreenNotifier3D obj)
       => obj.ObserveSignal("screen_entered");
 
-    public static IObservable<Godot.Camera> OnCameraEntered(this Godot.VisibilityNotifier obj)
-      => obj.ObserveSignal<Godot.Camera>("camera_entered");
+    public static IObservable<Godot.Camera3D> OnCameraEntered(this Godot.VisibleOnScreenNotifier3D obj)
+      => obj.ObserveSignal<Godot.Camera3D>("camera_entered");
 
-    public static IObservable<Unit> OnScreenExited(this Godot.VisibilityNotifier obj)
+    public static IObservable<Unit> OnScreenExited(this Godot.VisibleOnScreenNotifier3D obj)
       => obj.ObserveSignal("screen_exited");
 
     public static IObservable<Unit> OnEditorRefreshRequest(this Godot.VisualShaderNode obj)
@@ -529,16 +529,16 @@ namespace GodotRx {
     public static IObservable<Unit> OnInputTypeChanged(this Godot.VisualShaderNodeInput obj)
       => obj.ObserveSignal("input_type_changed");
 
-    public static IObservable<Unit> OnFrameChanged(this Godot.Sprite obj)
+    public static IObservable<Unit> OnFrameChanged(this Godot.Sprite2D obj)
       => obj.ObserveSignal("frame_changed");
 
-    public static IObservable<Unit> OnTextureChanged(this Godot.Sprite obj)
+    public static IObservable<Unit> OnTextureChanged(this Godot.Sprite2D obj)
       => obj.ObserveSignal("texture_changed");
 
-    public static IObservable<Unit> OnFrameChanged(this Godot.AnimatedSprite obj)
+    public static IObservable<Unit> OnFrameChanged(this Godot.AnimatedSprite2D obj)
       => obj.ObserveSignal("frame_changed");
 
-    public static IObservable<Unit> OnAnimationFinished(this Godot.AnimatedSprite obj)
+    public static IObservable<Unit> OnAnimationFinished(this Godot.AnimatedSprite2D obj)
       => obj.ObserveSignal("animation_finished");
 
     public static IObservable<Unit> OnTextureChanged(this Godot.MeshInstance2D obj)
@@ -568,13 +568,13 @@ namespace GodotRx {
     public static IObservable<Unit> OnMouseEntered(this Godot.CollisionObject2D obj)
       => obj.ObserveSignal("mouse_entered");
 
-    public static IObservable<(Godot.Node Viewport, Godot.InputEvent Event, int ShapeIdx)> OnInputEvent(this Godot.CollisionObject2D obj)
+    public static IObservable<(Godot.Node SubViewport, Godot.InputEvent Event, int ShapeIdx)> OnInputEvent(this Godot.CollisionObject2D obj)
       => obj.ObserveSignal<Godot.Node, Godot.InputEvent, int>("input_event");
 
     public static IObservable<Godot.Area2D> OnAreaExited(this Godot.Area2D obj)
       => obj.ObserveSignal<Godot.Area2D>("area_exited");
 
-    public static IObservable<(int AreaId, Godot.Area2D Area, int AreaShape, int SelfShape)> OnAreaShapeExited(this Godot.Area2D obj)
+    public static IObservable<(int AreaId, Godot.Area2D Area3D, int AreaShape, int SelfShape)> OnAreaShapeExited(this Godot.Area2D obj)
       => obj.ObserveSignal<int, Godot.Area2D, int, int>("area_shape_exited");
 
     public static IObservable<Godot.Node> OnBodyEntered(this Godot.Area2D obj)
@@ -586,7 +586,7 @@ namespace GodotRx {
     public static IObservable<Godot.Area2D> OnAreaEntered(this Godot.Area2D obj)
       => obj.ObserveSignal<Godot.Area2D>("area_entered");
 
-    public static IObservable<(int AreaId, Godot.Area2D Area, int AreaShape, int SelfShape)> OnAreaShapeEntered(this Godot.Area2D obj)
+    public static IObservable<(int AreaId, Godot.Area2D Area3D, int AreaShape, int SelfShape)> OnAreaShapeEntered(this Godot.Area2D obj)
       => obj.ObserveSignal<int, Godot.Area2D, int, int>("area_shape_entered");
 
     public static IObservable<Godot.Node> OnBodyExited(this Godot.Area2D obj)
@@ -595,17 +595,17 @@ namespace GodotRx {
     public static IObservable<(int BodyId, Godot.Node Body, int BodyShape, int AreaShape)> OnBodyShapeExited(this Godot.Area2D obj)
       => obj.ObserveSignal<int, Godot.Node, int, int>("body_shape_exited");
 
-    public static IObservable<Unit> OnScreenEntered(this Godot.VisibilityNotifier2D obj)
+    public static IObservable<Unit> OnScreenEntered(this Godot.VisibleOnScreenNotifier2D obj)
       => obj.ObserveSignal("screen_entered");
 
-    public static IObservable<Godot.Viewport> OnViewportEntered(this Godot.VisibilityNotifier2D obj)
-      => obj.ObserveSignal<Godot.Viewport>("viewport_entered");
+    public static IObservable<Godot.SubViewport> OnViewportEntered(this Godot.VisibleOnScreenNotifier2D obj)
+      => obj.ObserveSignal<Godot.SubViewport>("viewport_entered");
 
-    public static IObservable<Unit> OnScreenExited(this Godot.VisibilityNotifier2D obj)
+    public static IObservable<Unit> OnScreenExited(this Godot.VisibleOnScreenNotifier2D obj)
       => obj.ObserveSignal("screen_exited");
 
-    public static IObservable<Godot.Viewport> OnViewportExited(this Godot.VisibilityNotifier2D obj)
-      => obj.ObserveSignal<Godot.Viewport>("viewport_exited");
+    public static IObservable<Godot.SubViewport> OnViewportExited(this Godot.VisibleOnScreenNotifier2D obj)
+      => obj.ObserveSignal<Godot.SubViewport>("viewport_exited");
 
     public static IObservable<Unit> OnBoneSetupChanged(this Godot.Skeleton2D obj)
       => obj.ObserveSignal("bone_setup_changed");
@@ -745,8 +745,8 @@ namespace GodotRx {
     public static IObservable<string> OnPropertyKeyed(this Godot.EditorInspector obj)
       => obj.ObserveSignal<string>("property_keyed");
 
-    public static IObservable<(Godot.Object Res, string Prop)> OnResourceSelected(this Godot.EditorInspector obj)
-      => obj.ObserveSignal<Godot.Object, string>("resource_selected");
+    public static IObservable<(Godot.GodotObject Res, string Prop)> OnResourceSelected(this Godot.EditorInspector obj)
+      => obj.ObserveSignal<Godot.GodotObject, string>("resource_selected");
 
     public static IObservable<(string Property, bool Checked)> OnPropertyToggled(this Godot.EditorInspector obj)
       => obj.ObserveSignal<string, bool>("property_toggled");
@@ -766,10 +766,10 @@ namespace GodotRx {
     public static IObservable<(string Property, object Value)> OnPropertyChanged(this Godot.EditorProperty obj)
       => obj.ObserveSignal<string, object>("property_changed");
 
-    public static IObservable<(string Path, Godot.Resource Resource)> OnResourceSelected(this Godot.EditorProperty obj)
+    public static IObservable<(string Path3D, Godot.Resource Resource)> OnResourceSelected(this Godot.EditorProperty obj)
       => obj.ObserveSignal<string, Godot.Resource>("resource_selected");
 
-    public static IObservable<(string Path, int FocusableIdx)> OnSelected(this Godot.EditorProperty obj)
+    public static IObservable<(string Path3D, int FocusableIdx)> OnSelected(this Godot.EditorProperty obj)
       => obj.ObserveSignal<string, int>("selected");
 
     public static IObservable<(string[] Properties, Godot.Collections.Array Value)> OnMultiplePropertiesChanged(this Godot.EditorProperty obj)
@@ -799,64 +799,58 @@ namespace GodotRx {
     public static IObservable<string> OnFileRemoved(this Godot.FileSystemDock obj)
       => obj.ObserveSignal<string>("file_removed");
 
-    public static IObservable<object> OnCompleted(this Godot.GDScriptFunctionState obj)
+    public static IObservable<object> OnCompleted(this Godot.GDScript obj)
       => obj.ObserveSignal<object>("completed");
 
     public static IObservable<Vector3> OnCellSizeChanged(this Godot.GridMap obj)
       => obj.ObserveSignal<Vector3>("cell_size_changed");
 
-    public static IObservable<Unit> OnPortsChanged(this Godot.VisualScriptNode obj)
-      => obj.ObserveSignal("ports_changed");
-
-    public static IObservable<(string Function, int Id)> OnNodePortsChanged(this Godot.VisualScript obj)
-      => obj.ObserveSignal<string, int>("node_ports_changed");
-
-    public static IObservable<(string Media, int Index, string Name)> OnIceCandidateCreated(this Godot.WebRTCPeerConnection obj)
+    public static IObservable<(string Media, int Index, string Name)> OnIceCandidateCreated(this Godot.WebRtcPeerConnection obj)
       => obj.ObserveSignal<string, int, string>("ice_candidate_created");
 
-    public static IObservable<(string Type, string Sdp)> OnSessionDescriptionCreated(this Godot.WebRTCPeerConnection obj)
+    public static IObservable<(string Type, string Sdp)> OnSessionDescriptionCreated(this Godot.WebRtcPeerConnection obj)
       => obj.ObserveSignal<string, string>("session_description_created");
 
-    public static IObservable<Godot.Object> OnDataChannelReceived(this Godot.WebRTCPeerConnection obj)
-      => obj.ObserveSignal<Godot.Object>("data_channel_received");
+    public static IObservable<Godot.GodotObject> OnDataChannelReceived(this Godot.WebRtcPeerConnection obj)
+      => obj.ObserveSignal<Godot.GodotObject>("data_channel_received");
 
     public static IObservable<int> OnPeerPacket(this Godot.WebSocketMultiplayerPeer obj)
       => obj.ObserveSignal<int>("peer_packet");
 
-    public static IObservable<(int Code, string Reason)> OnServerCloseRequest(this Godot.WebSocketClient obj)
+    public static IObservable<(int Code, string Reason)> OnServerCloseRequest(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<int, string>("server_close_request");
 
-    public static IObservable<string> OnConnectionEstablished(this Godot.WebSocketClient obj)
+    public static IObservable<string> OnConnectionEstablished(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<string>("connection_established");
 
-    public static IObservable<Unit> OnDataReceived(this Godot.WebSocketClient obj)
+    public static IObservable<Unit> OnDataReceived(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal("data_received");
 
-    public static IObservable<Unit> OnConnectionError(this Godot.WebSocketClient obj)
+    public static IObservable<Unit> OnConnectionError(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal("connection_error");
 
-    public static IObservable<bool> OnConnectionClosed(this Godot.WebSocketClient obj)
+    public static IObservable<bool> OnConnectionClosed(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<bool>("connection_closed");
 
-    public static IObservable<(int Id, int Code, string Reason)> OnClientCloseRequest(this Godot.WebSocketServer obj)
+    public static IObservable<(int Id, int Code, string Reason)> OnClientCloseRequest(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<int, int, string>("client_close_request");
 
-    public static IObservable<int> OnDataReceived(this Godot.WebSocketServer obj)
-      => obj.ObserveSignal<int>("data_received");
+    // public static IObservable<int> OnDataReceived(this Godot.WebSocketPeer obj)
+    //   => obj.ObserveSignal<int>("data_received");
 
-    public static IObservable<(int Id, string Protocol)> OnClientConnected(this Godot.WebSocketServer obj)
+    public static IObservable<(int Id, string Protocol)> OnClientConnected(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<int, string>("client_connected");
 
-    public static IObservable<(int Id, bool WasCleanClose)> OnClientDisconnected(this Godot.WebSocketServer obj)
+    public static IObservable<(int Id, bool WasCleanClose)> OnClientDisconnected(this Godot.WebSocketPeer obj)
       => obj.ObserveSignal<int, bool>("client_disconnected");
   }
 
   public static class VisualServerSignals {
     public static IObservable<Unit> OnFramePostDraw()
-      => VisualServer.Singleton.ObserveSignal("frame_post_draw");
+      => RenderingServer.Singleton.ObserveSignal("frame_post_draw");
 
     public static IObservable<Unit> OnFramePreDraw()
-      => VisualServer.Singleton.ObserveSignal("frame_pre_draw");
+      => RenderingServer.Singleton.ObserveSignal("frame_pre_draw");
   }
 
   public static class InputSignals {
@@ -871,16 +865,16 @@ namespace GodotRx {
 
   public static class ARVRServerSignals {
     public static IObservable<(string TrackerName, int Type, int Id)> OnTrackerRemoved()
-      => ARVRServer.Singleton.ObserveSignal<string, int, int>("tracker_removed");
+      => XRServer.Singleton.ObserveSignal<string, int, int>("tracker_removed");
 
     public static IObservable<(string TrackerName, int Type, int Id)> OnTrackerAdded()
-      => ARVRServer.Singleton.ObserveSignal<string, int, int>("tracker_added");
+      => XRServer.Singleton.ObserveSignal<string, int, int>("tracker_added");
 
     public static IObservable<string> OnInterfaceRemoved()
-      => ARVRServer.Singleton.ObserveSignal<string>("interface_removed");
+      => XRServer.Singleton.ObserveSignal<string>("interface_removed");
 
     public static IObservable<string> OnInterfaceAdded()
-      => ARVRServer.Singleton.ObserveSignal<string>("interface_added");
+      => XRServer.Singleton.ObserveSignal<string>("interface_added");
   }
 
   public static class CameraServerSignals {
@@ -889,10 +883,5 @@ namespace GodotRx {
 
     public static IObservable<int> OnCameraFeedAdded()
       => CameraServer.Singleton.ObserveSignal<int>("camera_feed_added");
-  }
-
-  public static class VisualScriptEditorSignals {
-    public static IObservable<Unit> OnCustomNodesUpdated()
-      => VisualScriptEditor.Singleton.ObserveSignal("custom_nodes_updated");
   }
 }

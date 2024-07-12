@@ -5,7 +5,7 @@ using GodotRx;
 
 namespace Tests
 {
-  public class ObjectCounter : Label
+  public partial class ObjectCounter : Label
   {
     public override void _Ready()
     {

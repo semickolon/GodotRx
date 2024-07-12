@@ -17,7 +17,7 @@ namespace GodotRx
     new T Value { get; set; }
   }
 
-  public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserver<T>
+  public partial class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserver<T>
   {
     public T Value => _latestValue;
     public bool IsDisposed { get; private set; }
@@ -91,7 +91,7 @@ namespace GodotRx
     }
   }
 
-  public class ReactiveProperty<T> : IReactiveProperty<T>
+  public partial class ReactiveProperty<T> : IReactiveProperty<T>
   {
     public T Value {
       get => _latestValue;

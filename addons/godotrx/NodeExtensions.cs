@@ -1,20 +1,20 @@
-using Godot;
-using GodotRx.Internal;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using Godot;
+using GodotRx.Internal;
 
 namespace GodotRx
 {
   public static class NodeExtensions
   {
     #region Lifecycle
-    public static IObservable<float> OnProcess(this Node node)
+    public static IObservable<double> OnProcess(this Node node)
       => node.GetNodeTracker().OnProcess;
 
-    public static IObservable<float> OnPhysicsProcess(this Node node)
+    public static IObservable<double> OnPhysicsProcess(this Node node)
       => node.GetNodeTracker().OnPhysicsProcess;
 
     public static IObservable<InputEvent> OnInput(this Node node)
@@ -44,48 +44,48 @@ namespace GodotRx
     #endregion
 
     #region Input
-    public static IObservable<InputEventMouseButton> OnMouseDown(this Node node, ButtonList button = ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnMouseDown(this Node node, MouseButton button = MouseButton.Left)
       => node.OnMouseButtonEvent(false, button, true);
 
-    public static IObservable<InputEventMouseButton> OnMouseUp(this Node node, ButtonList button = ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnMouseUp(this Node node, MouseButton button = MouseButton.Left)
       => node.OnMouseButtonEvent(false, button, false);
 
-    public static IObservable<InputEventMouseButton> OnUnhandledMouseDown(this Node node, ButtonList button = ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnUnhandledMouseDown(this Node node, MouseButton button = MouseButton.Left)
       => node.OnMouseButtonEvent(true, button, true);
 
-    public static IObservable<InputEventMouseButton> OnUnhandledMouseUp(this Node node, ButtonList button = ButtonList.Left)
+    public static IObservable<InputEventMouseButton> OnUnhandledMouseUp(this Node node, MouseButton button = MouseButton.Left)
       => node.OnMouseButtonEvent(true, button, false);
 
-    private static IObservable<InputEventMouseButton> OnMouseButtonEvent(this Node node, bool unhandled, ButtonList button, bool pressed)
+    private static IObservable<InputEventMouseButton> OnMouseButtonEvent(this Node node, bool unhandled, MouseButton button, bool pressed)
     {
       return (unhandled ? node.OnUnhandledInput() : node.OnInput())
         .OfType<InputEvent, InputEventMouseButton>()
-        .Where(ev => ev.ButtonIndex == (int) button && ev.Pressed == pressed);
+        .Where(ev => ev.ButtonIndex == button && ev.Pressed == pressed);
     }
 
-    public static IObservable<InputEventKey> OnKeyPressed(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnKeyPressed(this Node node, Key key)
       => node.OnKeyEvent(false, key, true, null);
 
-    public static IObservable<InputEventKey> OnKeyReleased(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnKeyReleased(this Node node, Key key)
       => node.OnKeyEvent(false, key, false, null);
 
-    public static IObservable<InputEventKey> OnKeyJustPressed(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnKeyJustPressed(this Node node, Key key)
       => node.OnKeyEvent(false, key, true, false);
 
-    public static IObservable<InputEventKey> OnUnhandledKeyPressed(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnUnhandledKeyPressed(this Node node, Key key)
       => node.OnKeyEvent(true, key, true, null);
 
-    public static IObservable<InputEventKey> OnUnhandledKeyReleased(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnUnhandledKeyReleased(this Node node, Key key)
       => node.OnKeyEvent(true, key, false, null);
 
-    public static IObservable<InputEventKey> OnUnhandledKeyJustPressed(this Node node, KeyList key)
+    public static IObservable<InputEventKey> OnUnhandledKeyJustPressed(this Node node, Key key)
       => node.OnKeyEvent(true, key, true, false);
 
-    private static IObservable<InputEventKey> OnKeyEvent(this Node node, bool unhandled, KeyList key, bool pressed, bool? echo)
+    private static IObservable<InputEventKey> OnKeyEvent(this Node node, bool unhandled, Key key, bool pressed, bool? echo)
     {
       return (unhandled ? node.OnUnhandledInput() : node.OnInput())
         .OfType<InputEvent, InputEventKey>()
-        .Where(ev => ev.Scancode == (uint) key && ev.Pressed == pressed && (echo == null || ev.Echo == echo));
+        .Where(ev => ev.Keycode == key && ev.Pressed == pressed && (echo == null || ev.Echo == echo));
     }
 
     public static IObservable<Unit> OnActionPressed(this Node node, string action)
@@ -111,34 +111,34 @@ namespace GodotRx
     #endregion
 
     #region Frames
-    public static IObservable<float> OnIdleFrame(this Node node)
+    public static IObservable<double> OnIdleFrame(this Node node)
     {
       return node.GetTree().OnIdleFrame()
         .Select(_ => node.GetProcessDeltaTime());
     }
 
-    public static IObservable<float> OnNextIdleFrame(this Node node)
+    public static IObservable<double> OnNextIdleFrame(this Node node)
     {
       return node.OnIdleFrame().Take(1);
     }
 
-    public static Task<float> WaitNextIdleFrame(this Node node)
+    public static Task<double> WaitNextIdleFrame(this Node node)
     {
       return node.OnNextIdleFrame().ToTask();
     }
 
-    public static IObservable<float> OnPhysicsFrame(this Node node)
+    public static IObservable<double> OnPhysicsFrame(this Node node)
     {
       return node.GetTree().OnPhysicsFrame()
         .Select(_ => node.GetPhysicsProcessDeltaTime());
     }
 
-    public static IObservable<float> OnNextPhysicsFrame(this Node node)
+    public static IObservable<double> OnNextPhysicsFrame(this Node node)
     {
       return node.OnPhysicsFrame().Take(1);
     }
 
-    public static Task<float> WaitNextPhysicsFrame(this Node node)
+    public static Task<double> WaitNextPhysicsFrame(this Node node)
     {
       return node.OnNextPhysicsFrame().ToTask();
     }
